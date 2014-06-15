@@ -1,0 +1,45 @@
+# IGNORE EXTENSIONS
+*~
+*.bak
+*.diff
+*.err
+*.gem
+*.js.orig
+*.log
+*.orig
+*.rbc
+*.rej
+*.scssc
+*.swo
+*.swp
+*.vi
+
+
+# OS & VCS IGNORES
+!.gitignore
+!.gitkeep
+._*
+.cache
+.DS_Store
+.ftpquota
+.idea
+.project
+.settings
+.sass-cache
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+nbproject
+[Tt]humbs.db
+Gemfile.lock
+
+
+# PACKAGE MANAGER CRUFT
+/node_modules
+compile/vendor/*
+!compile/vendor/.gitkeep
+
+
+# IGNORE PROJECT-SPECIFIC FILES
+/public
+/compile/sass

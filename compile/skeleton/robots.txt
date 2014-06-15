@@ -1,0 +1,8 @@
+# http://robotstxt.org/
+# http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+# User-agent: *
+# Disallow: /
+
+# User-agent: Googlebot-Image
+# Disallow: /

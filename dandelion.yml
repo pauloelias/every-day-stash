@@ -1,0 +1,13 @@
+adapter: sftp
+host: example.com
+username: user
+password: pass
+path: path/to/deployment
+
+exclude:
+    - .gitignore
+    - dandelion.yml
+    - dir/
+
+additional:
+    - config/auth.yml
