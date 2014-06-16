@@ -49,14 +49,22 @@ compile/vendor/*
 # public_html/robots.txt
 # public_html/humans.txt
 # public_html/BingSiteAuth.xml
-public/assets/ee/*
+public/assets/ee/add-ons/*
+!public/assets/ee/add-ons/.gitkeep
+public/assets/ee/config/*
 !public/assets/ee/config/config.env.php
 !public/assets/ee/config/config.local.php.sample
+!public/assets/ee/config/config.dev.php.sample
+!public/assets/ee/config/config.stage.php.sample
+!public/assets/ee/config/config.prod.php.sample
 !public/assets/ee/config/config.master.extended.php
 !public/assets/ee/config/config.master.php
 !public/assets/ee/config/config.master.third.php
-!public/assets/ee/stash
-!public/assets/ee/templates
+public/assets/ee/images/*
+!public/assets/ee/images/.gitkeep
+public/assets/ee/system/*
+!public/assets/ee/system/.gitkeep
+!public/assets/ee/views
 public/themes/*
 
 
