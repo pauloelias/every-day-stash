@@ -1,0 +1,12 @@
+{!-- ===========================================================================
+  FILE: stash/snippets/edit_page.html
+  TYPE: Stash Snippet
+  DEPENDENCIES: Stash, IfElse
+  DESCRIPTION: Add this to templates to add an "edit page" link to logged in
+  users. Must be in the loop.
+============================================================================ --}
+{exp:ifelse parse="inward"}
+  {if member_group == "1" || member_group == "6" }
+    <div class="edit-entry"><a href="{cp_url}?S=0&amp;D=cp&amp;C=content_publish&amp;M=entry_form&amp;channel_id={stash:channel_id}&amp;entry_id={stash:entry_id}">Edit This</a></div>
+  {/if}
+{/exp:ifelse}

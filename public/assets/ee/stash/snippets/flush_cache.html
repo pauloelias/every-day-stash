@@ -1,0 +1,11 @@
+{!-- ===========================================================================
+  FILE: public_html/ee/stash/snippets/flush_cache.html
+  TYPE: Stash Snippet
+  DEPENDENCIES: Stash
+  DESCRIPTION: Flush cache using http://domain.com/?flush=1
+============================================================================ --}
+{exp:switchee variable="get:flush" parse="inward"}
+  {case value="1"}
+    {exp:stash:flush_cache}
+  {/case}
+{/exp:switchee}

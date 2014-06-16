@@ -318,6 +318,7 @@ gulp.task('watch', ['server'], function() {
 
 // Gulp It™
 // -----------------------------------------------------------------------------
-gulp.task('default', ['clean'], function() {
+// gulp.task('default', ['clean'], function() {
+gulp.task('default', function() {
   gulp.start('skeleton', 'sass', 'js', 'polyfills', 'jade', 'images', 'svgmin');
 });

@@ -41,5 +41,56 @@ compile/vendor/*
 
 
 # IGNORE PROJECT-SPECIFIC FILES
-/public
 /compile/sass
+
+
+# EXPRESSIONENGINE
+# public_html/.htaccess
+# public_html/robots.txt
+# public_html/humans.txt
+# public_html/BingSiteAuth.xml
+public/assets/ee/*
+!public/assets/ee/config/config.env.php
+!public/assets/ee/config/config.local.php.sample
+!public/assets/ee/config/config.master.extended.php
+!public/assets/ee/config/config.master.php
+!public/assets/ee/config/config.master.third.php
+!public/assets/ee/stash
+!public/assets/ee/templates
+public/themes/*
+
+
+# CACHES
+public/assets/ee/system/expressionengine/cache/*
+!public/assets/ee/system/expressionengine/cache/.htaccess
+!public/assets/ee/system/expressionengine/cache/index.html
+public/cache/captchas/*
+!public/cache/captchas/index.html
+public/cache/ga/*
+!public/cache/ga/index.html
+public/cache/img/local/*
+!public/cache/img/local/index.html
+public/cache/img/remote/*
+!public/cache/img/remote/index.html
+public/cache/img/stash/*
+!public/cache/stash/index.html
+
+
+# LOGS
+error_log
+public/assets/ee/logs/*
+!public/assets/ee/logs/.gitkeep
+!public/assets/ee/codeigniter/system/logs/.gitkeep
+
+
+# UGC
+public/assets/uploads/*
+!public/assets/uploads/index.html
+
+
+# BACKUPS
+backups/*
+!backups/database/index.html
+!backups/files/index.html
+!backups/updater/.htaccess
+!progress.data
