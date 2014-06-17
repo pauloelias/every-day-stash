@@ -8,10 +8,12 @@
 var gulp              = require( 'gulp' ),
 
 // Include plugins
+    cache             = require( 'gulp-cache' ),
     changed           = require( 'gulp-changed' ),
     clean             = require( 'gulp-clean' ),
     gutil             = require( 'gulp-util' ),
     plumber           = require( 'gulp-plumber' ),
+    // watch             = require( 'gulp-watch' ),
     rename            = require( 'gulp-rename' ),
     gulpif            = require( 'gulp-if' ),
     connect           = require( 'gulp-connect' ),
@@ -22,8 +24,8 @@ var gulp              = require( 'gulp' ),
 
     sass              = require( 'gulp-sass' ),
     compass           = require( 'gulp-compass' ),
-    // scsslint          = require( 'gulp-scsslint' ),
-    // uncss             = require( 'gulp-uncss' );
+    scsslint          = require( 'gulp-scsslint' ),
+    uncss             = require( 'gulp-uncss' );
     autoprefixer      = require( 'gulp-autoprefixer' ),
     minifycss         = require( 'gulp-minify-css' ),
 
@@ -35,7 +37,7 @@ var gulp              = require( 'gulp' ),
     imagemin          = require( 'gulp-imagemin' ),
     pngcrush          = require( 'imagemin-pngcrush' ),
     svgmin            = require( 'gulp-svgmin' );
-    // svgSprites        = require( 'gulp-svg-sprites' );
+    svgSprites        = require( 'gulp-svg-sprites' );
 
 
 // Variables
@@ -56,38 +58,25 @@ var move = {
 
 // Files to watch in the "Watch" task
 var watch = {
-      sass: sources.srcDir + 'scss/**/*.scss',
+      sass: sources.srcDir + 'sass/**/*.scss',
       js: sources.srcDir + 'js/app/**/*.js',
       polyfills: sources.srcDir + 'js/polyfills/**/*.js',
       img: sources.srcDir + 'img/**/*.{png,gif,jpg,jpeg,ico}',
-      svg: sources.srcDir + 'img/**/*.svg',
+      svg: sources.srcDir + 'svg/**/*.svg',
       jade: sources.srcDir + 'jade/**/*.jade'
     };
-
-// CSS Sources
-var cssIn = [ // This needs to be an array
-      sources.srcDir + 'sass/main.scss',
-      sources.srcDir + 'sass/print.scss',
-      sources.srcDir + 'sass/oldie.scss'
-    ];
 
 // JS Sources
 var jsIn  = [ sources.srcDir + 'js/app/main.js' ];
 var polyfillsJsIn = [ sources.srcDir + 'js/polyfills/polyfills.js' ];
-
-// Other src Files
-var src = {
-      img:  watch.img,
-      svg:  watch.svg,
-      jade: sources.srcDir + 'jade/**/*.jade',
-      md:   sources.srcDir + 'markdown/**/*.md'
-    }
 
 // DIST
 var dist = {
       css: sources.distDir + 'assets/css',
       js:  sources.distDir + 'assets/js',
       img: sources.distDir + 'assets/img',
+      svg: sources.distDir + 'assets/svg',
+      html: sources.distDir + 'templates'
     }
 
 
@@ -139,7 +128,7 @@ gulp.task('sass', function() {
     // generated_images_dir: 'public/assets/sprites', // Not supported yet
     font: 'public/assets/fonts',
     logging: false,
-    require: ['compass', 'compass-normalize', 'toolkit'],
+    require: ['sass-globbing', 'compass', 'breakpoint', 'modular-scale', 'singularitygs', 'toolkit'],
     bundle_exec: false,
     sourcemap: false,
     time: false,
@@ -154,9 +143,9 @@ gulp.task('sass', function() {
     sassConfig.debug = true;
   }
 
-  return gulp.src( cssIn )
+  return gulp.src( watch.sass )
     .pipe( plumber({ errorHandler: onError }) )
-    .pipe( changed(watch.sass) )
+    .pipe( changed(dist.css) )
     .pipe( compass(sassConfig) )
     .pipe( autoprefixer('last 2 version','safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4') )
     // .pipe( uncss({ html: ['public/**/*.html'] }) )
@@ -175,7 +164,7 @@ gulp.task('sass', function() {
 gulp.task( 'js', function() {
   return gulp.src( jsIn )
     .pipe( plumber({ errorHandler: onError }) )
-    .pipe( changed(watch.js) )
+    .pipe( changed(dist.js) )
     .pipe( include() )
     .pipe( gulp.dest(dist.js) )
     .pipe( gulpif(env === 'production', rename({suffix: '.min'})) )
@@ -189,7 +178,7 @@ gulp.task( 'js', function() {
 gulp.task( 'polyfills', function() {
   return gulp.src( polyfillsJsIn )
     .pipe( plumber({ errorHandler: onError }) )
-    .pipe( changed(watch.polyfills) )
+    .pipe( changed(dist.js) )
     .pipe( include() )
     .pipe( gulp.dest(dist.js) )
     .pipe( gulpif(env === 'production', rename({suffix: '.min'})) )
@@ -214,11 +203,11 @@ gulp.task( 'jade', function() {
     jadeConfig.pretty = true // uncompressed
   }
 
-  return gulp.src( src.jade )
-    .pipe( changed( src.jade ) )
+  return gulp.src( watch.jade )
+    .pipe( changed(dist.html) )
     .pipe( plumber({ errorHandler: onError }) )
     .pipe( jade(jadeConfig) )
-    .pipe( gulp.dest(sources.distDir) )
+    .pipe( gulp.dest(dist.html) )
     .pipe( plumber.stop() )
     .pipe( connect.reload() )
     .pipe( notify({ message: 'Jade to HTML task complete' }) );
@@ -229,9 +218,9 @@ gulp.task( 'jade', function() {
 // Converts Markdown to HTML (E.G. Documentation)
 // -----------------------------------------------------------------------------
 // gulp.task('markdown', function () {
-//   return gulp.src( src.md )
+//   return gulp.src( watch.md )
 //     .pipe(plumber( { errorHandler: onError } ))
-//     .pipe(changed( src.md ))
+//     .pipe(changed( dist.md ))
 //     .pipe(markdown())
 //     .pipe(plumber.stop())
 //     .pipe(gulp.dest( docs ))
@@ -255,10 +244,10 @@ gulp.task('images', function() {
   if ( env === 'development' ) {
   }
 
-  return gulp.src( src.img )
+  return gulp.src( watch.img )
     .pipe( plumber({ errorHandler: onError }) )
-    .pipe( changed(src.img) )
-    .pipe( imagemin(imgConfig) )
+    .pipe( changed(dist.img) )
+    .pipe( cache(imagemin(imgConfig)) )
     .pipe( gulp.dest(dist.img) )
     .pipe( plumber.stop() )
     // .pipe( connect.reload() )
@@ -271,9 +260,9 @@ gulp.task('images', function() {
 gulp.task('svgmin', function() {
   return gulp.src( watch.svg )
     .pipe( plumber({ errorHandler: onError }) )
-    .pipe( changed(watch.svg) )
+    .pipe( changed(dist.svg) )
     .pipe( svgmin() )
-    .pipe( gulp.dest(dist.img) )
+    .pipe( gulp.dest(dist.svg) )
     .pipe( plumber.stop() )
     .pipe(notify({ message: 'SVG optimization task complete' }));
 });
@@ -318,7 +307,6 @@ gulp.task('watch', ['server'], function() {
 
 // Gulp It™
 // -----------------------------------------------------------------------------
-// gulp.task('default', ['clean'], function() {
-gulp.task('default', function() {
+gulp.task('default', ['clean'], function() {
   gulp.start('skeleton', 'sass', 'js', 'polyfills', 'jade', 'images', 'svgmin');
 });
