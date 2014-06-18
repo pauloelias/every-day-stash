@@ -8,11 +8,14 @@
   parse="no"
   process="start"
 }
-
   <div class="page-wrapper">
-    {if {exp:stash:not_empty name="content-primary"}}
-      {stash:content-primary}
-    {/if}
+
+    <main>
+      {if {exp:stash:not_empty name="content-primary"}}
+        {stash:content-primary}
+      {/if}
+    </main>
+
   </div> <!-- /END .page-wrapper -->
 
 {stash:embed:partials:_global_footer

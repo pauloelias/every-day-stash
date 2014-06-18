@@ -1,3 +1,21 @@
-<hr>
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/partials/_global_footer.html
+  TYPE: Template Partial
+  DEPENDENCIES:
+  DESCRIPTION: Global footer shared across the site
+============================================================================ --}
+    <footer class="page-footer" role="contentinfo">
+      <p class="copyright">Copyright &copy; {current_time format="%Y"} {site_name}. All rights reserved.</p>
 
-<h1>Global Footer</h1>
+      {stash:embed:snippets:sn_navigation
+        parse="no"
+        process="start"
+      }
+
+      <a href="#top">^ Back to Top</a>
+    </footer> <!-- /END .page-footer -->
+
+    {!-- === Global JavaScript ============================================= --}
+    <script></script>
+  </body>
+</html>

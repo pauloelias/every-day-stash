@@ -1,3 +1,23 @@
-<h1>Global Header</h1>
-
-<hr>
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/partials/_global_header.html
+  TYPE: Template Partial
+  DEPENDENCIES: Stash
+  DESCRIPTION: Global header shared across the site
+============================================================================ --}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{site_name}</title>
+  </head>
+  <body>
+    <header id="top" class="page-header">
+      <h1 class="logo">
+        <a href="{site_url}">{site_name}</a>
+      </h1>
+      <nav>
+        {stash:embed:snippets:sn_navigation
+          parse="no"
+          process="start"
+        }
+      </nav>
+    </header>

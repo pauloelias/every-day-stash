@@ -9,7 +9,11 @@
 
 
 {!-- Set variables ========================================================= --}
-{!-- Grab the page content --}
+
+
+
+{!-- Models ================================================================ --}
+{!-- Grab the homepage content --}
 {exp:channel:entries
   channel="ch_pages"
   limit="1"
@@ -21,9 +25,10 @@
 }
 
   {exp:stash:set}
-    {stash:channel_name}{channel_name}{/stash:channel_name}
-    {stash:entry_id}{entry_id}{/stash:entry_id}
-    {stash:title}{title}{/stash:title}
+    {stash:embed:snippets:sn_global_entry_fields
+      parse="no"
+      process="start"
+    }
     {stash:content}{cf_shared_body}{/stash:content}
     {stash:image}{cf_shared_image}{/stash:image}
   {/exp:stash:set}
@@ -56,8 +61,26 @@
 
 {/exp:channel:entries}
 
+{!-- Grab the page teasers --}
+{exp:stash:set_list
+  name="page_teasers"
+  parse_tags="yes"
+}
+  {exp:channel:entries
+    channel="ch_pages"
+    disable="categories|category_fields|member_data|pagination"
+    status="open"
+    dynamic="no"
+  }
 
-{!-- Models ================================================================ --}
+      {stash:embed:snippets:sn_global_entry_fields
+        parse="no"
+        process="start"
+      }
+      {stash:teaser}{cf_shared_teaser}{/stash:teaser}
+
+  {/exp:channel:entries}
+{/exp:stash:set_list}
 
 
 
@@ -72,7 +95,31 @@
   <img src="{stash:image}" alt="Featured Image">
 
   {exp:stash:get_list
+    name="page_teasers"
+    match="#^((?!.*(home)).*)$#"
+    against="url_title"
+    compress="yes"
+    prefix="list"
+  }
+    {if list:no_results}
+      <p class="notice">Sorry, we can't display any results.</p>
+    {/if}
+
+    {if list:count == 1}
+      <ul>
+    {/if}
+        <li>
+          <h2><a href="{path='{list:url_title}'}">{list:title}</a></h2>
+          {list:teaser}
+        </li>
+    {if list:count == list:total_results}
+      </ul>
+    {/if}
+  {/exp:stash:get_list}
+
+  {exp:stash:get_list
     name="featured_work"
+    compress="yes"
     prefix="list"
   }
     {if list:no_results}
@@ -89,6 +136,7 @@
           {exp:stash:get_list:nested
             name="featured_gallery"
             context="{list:entry_id}"
+            compress="yes"
             prefix="nested"
             limit="1"
             sort="asc"
