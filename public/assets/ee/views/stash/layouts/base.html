@@ -1,0 +1,21 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/layouts/base.html
+  TYPE: Stash Layout
+  DEPENDENCIES: Stash
+  DESCRIPTION: Base site layout
+============================================================================ --}
+{stash:embed:partials:_global_header
+  parse="no"
+  process="start"
+}
+
+  <div class="page-wrapper">
+    {if {exp:stash:not_empty name="content-primary"}}
+      {stash:content-primary}
+    {/if}
+  </div> <!-- /END .page-wrapper -->
+
+{stash:embed:partials:_global_footer
+  parse="no"
+  process="start"
+}

@@ -122,6 +122,7 @@ if (isset($config))
   $env_config['sig_img_url']          = $images_url  . '/signature_attachments/';
   $env_config['prv_msg_upload_path']  = $images_path . '/pm_attachments/';
   // $env_config['uri_protocol']      = (ENV == 'dev') ? 'PATH_INFO' : 'ORIG_PATH_INFO';
+  $env_config['uri_protocol']         = 'AUTO';
   $env_config['third_party_path']     = $base_path . '/' . 'assets/ee/' . $third_party .'/';
 
 

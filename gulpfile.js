@@ -63,7 +63,8 @@ var watch = {
       polyfills: sources.srcDir + 'js/polyfills/**/*.js',
       img: sources.srcDir + 'img/**/*.{png,gif,jpg,jpeg,ico}',
       svg: sources.srcDir + 'svg/**/*.svg',
-      jade: sources.srcDir + 'jade/**/*.jade'
+      jade: sources.srcDir + 'jade/**/*.jade',
+      html: sources.distDir + 'assets/ee/views/**/*.{html,snip}'
     };
 
 // JS Sources
@@ -76,7 +77,7 @@ var dist = {
       js:  sources.distDir + 'assets/js',
       img: sources.distDir + 'assets/img',
       svg: sources.distDir + 'assets/svg',
-      html: sources.distDir + 'templates'
+      html: sources.distDir + '_static'
     }
 
 
@@ -281,6 +282,17 @@ gulp.task( 'server', function() {
 });
 
 
+// HTML Watch task
+// Watch EECMS templates for changes
+// -----------------------------------------------------------------------------
+gulp.task( 'watch:html', function() {
+  return gulp.src( watch.html )
+    .pipe( changed(watch.html) )
+    .pipe( connect.reload() )
+    .pipe( notify({ message: 'Templates updated' }) );
+});
+
+
 // Watch task
 // -----------------------------------------------------------------------------
 gulp.task('watch', ['server'], function() {
@@ -302,11 +314,14 @@ gulp.task('watch', ['server'], function() {
   // Watch Jade files
   gulp.watch( watch.jade, ['jade'] );
 
+  // Watch HTML files
+  gulp.watch( watch.html, ['watch:html'] );
+
 });
 
 
 // Gulp It™
 // -----------------------------------------------------------------------------
-gulp.task('default', ['clean'], function() {
-  gulp.start('skeleton', 'sass', 'js', 'polyfills', 'jade', 'images', 'svgmin');
+gulp.task('default', function() {
+  gulp.start('sass', 'js', 'polyfills', 'jade', 'images', 'svgmin', 'watch');
 });
