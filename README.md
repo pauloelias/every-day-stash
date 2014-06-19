@@ -128,11 +128,25 @@ This project uses the following naming conventions:
 
 #### <a name="global-variables"></a> Global Variables
 
-TBD.
+| Variable | Description | Location |
+| ----------- | ----------------- | ------------ |
+| {global:env} | Shorthand enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
+| {global:env_full} | Full enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
+| {global:param_disable_default} | disable="categories|pagination|member_data" |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_disable_all}  | disable="categories|custom_fields|member_data|pagination" |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_keep_cats} | disable="pagination|member_data" |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_cache_param} | cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
+| {-global:param_cache_param} | -cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
+| {global:date_time} | %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
+| {global:date_short} | %F %d, %Y |  ```./public/assets/ee/config/config.master.php``` |
+| {global:date_full} | %F %d %Y, %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
+| {global:theme_url} | $base_url . 'themes/site_themes/default' |  ```./public/assets/ee/config/config.master.php``` |
 
 #### <a name="channels"></a> Channels
 
-TBD.
+| Channel Name | Channel Short Name | Categories | Statuses | Fields |
+| ---------------------- | ----------------------------- | ---------------  | ----------- | --------- |
+| Blog | ch_blog | Blog Categories | Statuses | Shared Fields |
 
 #### <a name="custom-fields"></a> Custom Fields
 
