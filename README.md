@@ -126,7 +126,7 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 
 ### <a name="naming-conventions"></a> Naming Conventions
 
-This project uses the following naming conventions:
+#### Variables, Channels, Snippets
 
 | Variable Prefix | Type | Sample |
 | -------------------- | ------- | ---------- |
@@ -136,6 +136,8 @@ This project uses the following naming conventions:
 | gv_ | Global Variable | gv_global_var |
 | pr_ | Preload Replace | pr_preload_replace |
 | sn_ | Snippet | sn_snippet_name |
+
+#### Stash Files
 
 | File Prefix | Type | Sample |
 | -------------- | ------- | ---------- |

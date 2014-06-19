@@ -3,17 +3,18 @@
 
 /* TEAM */
     Lead: Paulo Elias
-    Contact: hello [at] wearequickpixel.com
     Twitter: @pauloelias
     From: San Francisco, CA, US
 
-# /* THANKS */
-#    Name: name or url
-#    Twitter:
-#    From:
+/* THANKS */
+    Name: Mark Croxton
+    Twitter: @croxton
+
+    Name: Adrienne Travis
+    Twitter: @adrienneleigh
 
 /* SITE */
-    Last update: 2014/06/14
+    Last update: 2014/06/20
     Language: English
     Doctype: HTML5
     IDE: Sublime Text

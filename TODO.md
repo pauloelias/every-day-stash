@@ -11,6 +11,7 @@
 ---
 
 ## <a name="frontend"></a> Frontend
+* Stash Pagination
 * Abstract Work section
 * Abstract Blog section
 
@@ -18,7 +19,7 @@
 
 ## <a name="backend"></a> Backend
 
-*
+TBD
 
 ---
 
