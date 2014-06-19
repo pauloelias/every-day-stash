@@ -9,11 +9,18 @@ Created by [Paulo Elias](https://twitter.com/pauloelias)
 ## Table of Contents
 
 1. [Project Overview](#overview)
-2. [Detailed Documentation](documentation)
-3. [Project Setup](#project-setup)
+2. [Project Setup](#project-setup)
     1. [Frontend](#frontend)
-    2. [Application/Backend](#backend)
+    2. [ExpressionEngine](#backend)
 4. [Configuration](#configuration)
+	1. [ExpressionEngine](#expressionengine)
+	2. [Naming Conventions](#naming-conventions)
+	3. [Global Variables](#global-variables)
+	4. [Channels](#channels)
+	5. [Custom Fields](#custom-fields)
+	6. [Statuses](#statuses)
+	7. [Categories](#categories)
+	8. [Member Groups](#member-groups)
 5. [Notes](#notes)
 6. [To Do](#todo)
 7. [Credits](#credits)
@@ -92,7 +99,7 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 
 ## <a name="configuration"></a> Configuration
 
-### Backend Configuration
+### <a name="expressionengine"></a> ExpressionEngine Configuration
 
 #### File locations
 
