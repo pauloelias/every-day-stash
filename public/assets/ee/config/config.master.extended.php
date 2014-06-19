@@ -116,8 +116,8 @@
   $env_config['require_secure_passwords'] = 'n'; // y|n
   $env_config['allow_dictionary_pw']      = 'y'; // y|n
   $env_config['name_of_dictionary_file']  = '';
-  $env_config['un_min_len']               = '6';
-  $env_config['pw_min_len']               = '6';
+  $env_config['un_min_len']               = '4';
+  $env_config['pw_min_len']               = '4';
 
   // Cookie Settings
   $env_config['cookie_domain']            = '.' . preg_replace('#^www\.(.+\.)#i', '$1', $_SERVER['HTTP_HOST']);

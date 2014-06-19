@@ -57,4 +57,15 @@
 {!-- Page Content: content-featured --}
 {exp:stash:set name="content-featured"}
 
+  {!--
+    Featured work variables from:
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+   --}
+  {if {exp:stash:not_empty name="featured_work"}}
+    {stash:embed:snippets:sn_featured_work_band
+      parse="no"
+      process="start"
+    }
+  {/if}
+
 {/exp:stash:set}
