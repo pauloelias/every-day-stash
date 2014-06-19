@@ -50,8 +50,7 @@ compile/vendor/*
 # EXPRESSIONENGINE
 # public_html/.htaccess
 
-public/assets/ee/add-ons/*
-!public/assets/ee/add-ons/.gitkeep
+!public/assets/ee/add-ons
 
 public/assets/ee/config/*
 !public/assets/ee/config/config.env.php
@@ -77,8 +76,7 @@ public/themes/cp_themes/*
 !public/themes/cp_themes/.gitkeep
 public/themes/javascript/*
 !public/themes/javascript/.gitkeep
-public/themes/third_party/*
-!public/themes/third_party/.gitkeep
+!public/themes/third_party
 
 
 # CACHES
