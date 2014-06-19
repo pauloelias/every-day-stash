@@ -11,19 +11,20 @@
 ---
 
 ## <a name="frontend"></a> Frontend
-* List Item
+* Abstract Work section
+* Abstract Blog section
 
 ---
 
 ## <a name="backend"></a> Backend
 
-* List Item
+*
 
 ---
 
 ## <a name="documentation"></a> Documentation
 
 * Fill out [Project README](./README.md)
-* Improve [Developer Docs](./docs/developer_docs.md) 
+* Improve [Developer Docs](./docs/developer_docs.md)
 * Improve [Frontend Docs](./docs/frontend_docs.md)
 * Update [Changelog](./docs/upgrade_log.md)

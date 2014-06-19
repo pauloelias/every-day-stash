@@ -1,186 +1,23 @@
 {!-- ===========================================================================
-  FILE: public/assets/ee/views/templates/default_site/site.group/index.html
-  TYPE: View-Model
-  DEPENDENCIES: Stash
-  DESCRIPTION: Homepage template
+  FILE: public/assets/ee/views/templates/default_site/blog.group/index.html
+  TYPE: Routing Template
+  DEPENDENCIES: Stash, Switchee
+  DESCRIPTION:  Blog landing page template to display either listing/landing page
+                or detail page
 ============================================================================ --}
-{!-- Set the layout ======================================================== --}
-{stash:embed:layouts:base}
+{exp:switchee variable="{segment_2}" parse="inward"}
+  {!--
+    Detect pagination or empty segment_2 for the listing page
+  --}
+  {case value="#^P(\d+)$#|''"}
+    {embed="blog/_listing"}
+  {/case}
 
+  {!--
+    Detail page
+  --}
+  {case default="yes"}
+    {embed="blog/_detail"}
+  {/case}
 
-{!-- Set variables ========================================================= --}
-
-
-
-{!-- Models ================================================================ --}
-{!-- Grab the page content --}
-{exp:channel:entries
-  channel="ch_pages"
-  limit="1"
-  require_entry="yes"
-  disable="categories|category_fields|member_data|pagination"
-  status="open"
-  url_title="{last_segment}"
-  dynamic="no"
-}
-
-  {exp:stash:set}
-    {stash:embed:snippets:sn_global_entry_fields
-      parse="no"
-      process="start"
-    }
-    {stash:channel_name}{channel_name}{/stash:channel_name}
-    {stash:entry_id}{entry_id}{/stash:entry_id}
-    {stash:url_title}{url_title}{/stash:url_title}
-    {stash:title}{title}{/stash:title}
-    {stash:content}{cf_shared_body}{/stash:content}
-    {stash:image}{cf_shared_image}{/stash:image}
-  {/exp:stash:set}
-
-  {!-- Set lists from looping fieldtypes --}
-  {exp:stash:set_list
-    name="featured_work"
-    parse_tags="yes"
-    parse_depth="2"
-  }
-    {!-- This is a Relationship field --}
-    {cf_shared_featured_work}
-      {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
-      {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
-      {stash:title}{cf_shared_featured_work:title}{/stash:title}
-      {stash:content}{cf_shared_featured_work:cf_port_description}{/stash:content}
-      {!-- Nested Grid field --}
-      {exp:stash:set_list:nested
-        name="featured_gallery"
-        context="{cf_shared_featured_work:entry_id}"
-        parse_tags="yes"
-      }
-        {cf_shared_featured_work:cf_port_gallery}
-          {stash:caption}{cf_port_gallery:caption}{/stash:caption}
-          {stash:image}{cf_port_gallery:image}{/stash:image}
-        {/cf_shared_featured_work:cf_port_gallery}
-      {/exp:stash:set_list:nested}
-    {/cf_shared_featured_work}
-  {/exp:stash:set_list}
-
-{/exp:channel:entries}
-
-{!-- Grab the page teasers --}
-{exp:stash:set_list
-  name="page_teasers"
-  parse_tags="yes"
-}
-  {exp:channel:entries
-    channel="ch_pages"
-    disable="categories|category_fields|member_data|pagination"
-    status="open"
-    dynamic="no"
-  }
-
-      {stash:embed:snippets:sn_global_entry_fields
-        parse="no"
-        process="start"
-      }
-      {stash:teaser}{cf_shared_teaser}{/stash:teaser}
-
-  {/exp:channel:entries}
-{/exp:stash:set_list}
-
-
-
-{!-- Views ================================================================= --}
-{!-- Page content: content-primary --}
-{exp:stash:set name="content-primary"}
-
-  {if {exp:stash:not_empty name="title"}}
-    <h1>{stash:title}</h1>
-  {/if}
-
-  {if {exp:stash:not_empty name="content"}}
-    {stash:content}
-  {/if}
-
-  {if {exp:stash:not_empty name="image"}}
-    <img src="{stash:image}" alt="Featured Image">
-  {/if}
-
-  {if {exp:stash:not_empty name="page_teasers"}}
-    {exp:stash:get_list
-      name="page_teasers"
-      match="#^((?!.*(home)).*)$#"
-      against="url_title"
-      compress="yes"
-      prefix="list"
-    }
-      {if list:no_results}
-        <p class="notice">Sorry, we can't display any Page Teasers.</p>
-      {/if}
-
-      {if list:count == 1}
-        <ul>
-      {/if}
-          <li>
-            {if list:title}
-              <h2><a href="{path='{list:url_title}'}">{list:title}</a></h2>
-            {/if}
-            {if list:teaser}
-              {list:teaser}
-            {/if}
-          </li>
-      {if list:count == list:total_results}
-        </ul>
-      {/if}
-    {/exp:stash:get_list}
-  {/if}
-
-  {if {exp:stash:not_empty name="featured_work"}}
-    {exp:stash:get_list
-      name="featured_work"
-      compress="yes"
-      prefix="list"
-      orderby="random"
-    }
-      {if list:no_results}
-        <p class="notice">Sorry, we can't display any Featured Work.</p>
-      {/if}
-
-      {if list:count == 1}
-        <ul>
-      {/if}
-          <li>
-            {if list:title}
-              <h2>{list:title}</h2>
-            {/if}
-
-            {if list:content}
-              {list:content}
-            {/if}
-
-            {exp:stash:get_list:nested
-              name="featured_gallery"
-              context="{list:entry_id}"
-              compress="yes"
-              prefix="nested"
-              limit="1"
-              sort="asc"
-            }
-              {if nested:no_results}
-                <p class="notice" style="color:red;font-weight:bold;">Sorry, we can't display an Image Gallery.</p>
-              {/if}
-
-              {if nested:caption}
-                <h3>{nested:caption}</h3>
-              {/if}
-
-              {if nested:image}
-                <img src="{nested:image}" alt="{nested:caption}">
-              {/if}
-            {/exp:stash:get_list:nested}
-          </li>
-      {if list:count == list:total_results}
-        </ul>
-      {/if}
-    {/exp:stash:get_list}
-  {/if}
-
-{/exp:stash:set}
+{/exp:switchee}

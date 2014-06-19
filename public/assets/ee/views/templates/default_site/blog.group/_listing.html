@@ -1,0 +1,136 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/blog.group/_listing.html
+  TYPE: View-Model
+  DEPENDENCIES: Stash, Grid
+  DESCRIPTION: Blog listing template
+============================================================================ --}
+{!-- Set the layout ======================================================== --}
+{stash:embed:layouts:base}
+
+
+{!-- Set variables ========================================================= --}
+
+
+
+{!-- Models ================================================================ --}
+{!-- Grab the Portfolio Items --}
+{exp:stash:set_list
+  name="blog"
+  parse_tags="yes"
+  parse_depth="4"
+}
+
+  {exp:channel:entries
+    channel="ch_blog"
+    status="open"
+    disable="category_fields|member_data|pagination"
+    dynamic="no"
+  }
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:author}{author}{/stash:author}
+    {stash:entry_date}{entry_date format="%F %d, %Y"}{/stash:entry_date}
+    {stash:categories}{categories backspace="2"}{category_name}, {/categories}{/stash:categories}
+    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
+    {stash:featured_image}{cf_shared_image}{/stash:featured_image}
+    {stash:content}{cf_shared_body}{/stash:content}
+
+    {!-- Nested Relationship field --}
+    {exp:stash:set_list:nested
+      name="featured_project"
+      context="{entry_id}"
+      parse_tags="yes"
+    }
+      {cf_shared_featured_work}
+        {stash:title}{cf_shared_featured_work:title}{/stash:title}
+        {stash:url_title}{cf_shared_featured_work:url_title}{/stash:url_title}
+        {stash:description}{cf_shared_featured_work:cf_port_description}{/stash:description}
+      {/cf_shared_featured_work}
+    {/exp:stash:set_list:nested}
+  {/exp:channel:entries}
+
+{/exp:stash:set_list}
+
+
+{!-- Views ================================================================= --}
+{!-- Page Content: content-primary --}
+{exp:stash:set name="content-primary"}
+
+  {if {exp:stash:not_empty name="blog"}}
+    {exp:stash:get_list
+      name="blog"
+      prefix="list"
+      compress="yes"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Blog Posts.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {if list:title}
+              <h2><a href="{path='blog/{list:url_title}'}">{list:title}</a></h2>
+            {/if}
+
+            <div clas="blog-meta">
+              {if list:author}{list:author}{/if} | {if list:entry_date}{list:entry_date}{/if}
+              <br>
+              {if list:categories}{list:categories}{/if}
+            </div>
+
+            {if list:teaser}
+              {list:teaser}
+            {if:else}
+              <p>{exp:streeng allowed="none" words="10"}{list:content}{/exp:streeng}</p>
+            {/if}
+
+            {if list:featured_image}
+              <img src="{list:featured_image}" alt="{list:title}">
+            {/if}
+
+            {!--
+              Check to see if the nested list is empty by assigning the context to it
+            --}
+            {if {exp:stash:not_empty
+              name="featured_project"
+              context="{list:entry_id}"}
+            }
+              {exp:stash:get_list:nested
+                name="featured_project"
+                context="{list:entry_id}"
+                prefix="nested"
+                limit="1"
+                sort="asc"
+                compress="yes"
+              }
+                {if nested:no_results}
+                  <p class="notice">Sorry, we can't display a Featured Project.</p>
+                {/if}
+
+                {if nested:title}
+                  <h3>{nested:title} - {nested:url_title}</h3>
+                {/if}
+
+                {if nested:description}
+                  <h4>{exp:streeng allowed="none" words="10"}{nested:description}{/exp:streeng}</h4>
+                {/if}
+
+                {if nested:port_image}
+                  <img src="{nested:port_image}" alt="{nested:port_caption}">
+                {/if}
+
+                <hr>
+              {/exp:stash:get_list:nested}
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
+
+{/exp:stash:set}
