@@ -113,13 +113,41 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 	* USER: stash
 	* PASS: 21wqsaxZ
 
+### <a name="naming-conventions"></a> Naming Conventions
+
+This project uses the following naming conventions:
+
+### Site Architecture
+
+#### <a name="global-variables"></a> Global Variables
+
+TBD.
+
+#### <a name="channels"></a> Channels
+
+TBD.
+
+#### <a name="custom-fields"></a> Custom Fields
+
+TBD.
+
+#### <a name="statuses"></a> Statuses
+
+TBD.
+
+#### <a name="categories"></a> Categories
+
+TBD.
+
+#### <a name="member-groups"></a> Member Groups
+
+TBD.
+
 ---
 
 ## <a name="notes"></a> Notes
 
-### <a name="naming-conventions"></a> Naming Conventions
-
-This project uses the following naming conventions:
+TBD.
 
 ---
 
