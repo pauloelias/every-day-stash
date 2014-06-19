@@ -20,10 +20,12 @@ Created by [Paulo Elias](https://twitter.com/pauloelias)
 	5. [Custom Fields](#custom-fields)
 	6. [Statuses](#statuses)
 	7. [Categories](#categories)
-	8. [Member Groups](#member-groups)
+	8. [Uploads](#uploads)
+	9. [Templates](#templates)
+	10. [Member Groups](#member-groups)
+	11. [Add-ons](#add-ons)
 5. [Notes](#notes)
-6. [To Do](#todo)
-7. [Credits](#credits)
+6. [Credits](#credits)
 
 ---
 
@@ -109,6 +111,8 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 * EECMS images: ```./public/assets/ee/images```
 * Cache (add-ons's etc.): ```./public/cache```
 * Uploads: ```./public/assets/uploads```
+* Stash: ```./public/assets/ee/views/stash```
+* Templates: ````./public/assets/ee/views/templates```
 * Control panel: ```./public/cp/index.php``` (instead of leaving ```admin.php``` at the public web root)
 * Third-party add-ons: ```./public/assets/ee/add-ons```
 * Third-party add-ons: ```./public/themes/third_party```
@@ -124,6 +128,21 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 
 This project uses the following naming conventions:
 
+| Variable Prefix | Type | Sample |
+| -------------------- | ------- | ---------- |
+| cat_cf_ | Category Custom Field | cat_cf_field_name |
+| cf_ | Custom Field | cf_field_name |
+| ch_ | Channel | ch_channel_name |
+| gv_ | Global Variable | gv_global_var |
+| pr_ | Preload Replace | pr_preload_replace |
+| sn_ | Snippet | sn_snippet_name |
+
+| File Prefix | Type | Sample |
+| -------------- | ------- | ---------- |
+| ( _ ) Underscore | Stash Partial | ( _ ) stash_partial.html |
+| md_ | Stash Model | md_stash_model.html |
+| sn_ | Stash Partial | _stash_partial.html |
+
 ### Site Architecture
 
 #### <a name="global-variables"></a> Global Variables
@@ -132,9 +151,9 @@ This project uses the following naming conventions:
 | ----------- | ----------------- | ------------ |
 | {global:env} | Shorthand enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
 | {global:env_full} | Full enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
-| {global:param_disable_default} | disable="categories|pagination|member_data" |  ```./public/assets/ee/config/config.master.php``` |
-| {global:param_disable_all}  | disable="categories|custom_fields|member_data|pagination" |  ```./public/assets/ee/config/config.master.php``` |
-| {global:param_keep_cats} | disable="pagination|member_data" |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_disable_default} | Disables categories, pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_disable_all}  | Disables categories, custom_fields, member_data, pagination |  ```./public/assets/ee/config/config.master.php``` |
+| {global:param_keep_cats} | Disables pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
 | {global:param_cache_param} | cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
 | {-global:param_cache_param} | -cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
 | {global:date_time} | %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
@@ -147,22 +166,79 @@ This project uses the following naming conventions:
 | Channel Name | Channel Short Name | Categories | Statuses | Fields |
 | ---------------------- | ----------------------------- | ---------------  | ----------- | --------- |
 | Blog | ch_blog | Blog Categories | Statuses | Shared Fields |
+| Pages | ch_pages |  | Statuses | Shared Fields |
+| Portfolio | ch_portfolio |  | Statuses | Portfolio Fields |
+| Services | ch_services |  | Statuses | Services Fields |
+| Team | ch_team |  | Statuses | Team Fields |
 
 #### <a name="custom-fields"></a> Custom Fields
 
-TBD.
+##### Porfolio Fields
+
+| Field Name | Field Short Name | Field Type | Required | Searchable | Default | Notes |
+| ----------------  | ------------------------ | --------------- | ------------- | ---------------- | ---------- | --------- |
+| Description  | {cf_port_description} | Textarea | N | Y | Y | Rows: 9, Formatting: XHTML |
+| Gallery  | {cf_port_gallery} | Grid | N | N | Y | Min: 1, Max: 7, 1) Data Type: File, Label: Image, Field Name: image, Allowed type: image, Directory: Portfolio Images, Show Existing: Yes 2) Data Type: Text Input, Label: Caption, Field Name: caption, Formatting: None, Content: All, Limit: 256 |
+| Services  | {cf_port_services} | Relationships | N | N | Y | Channels: Services, Category: Any, Authors: Any, Status: Open, Multiple: Y |
+
+##### Services Fields
+
+| Field Name | Field Short Name | Field Type | Required | Searchable | Default | Notes |
+| ----------------  | ------------------------ | --------------- | ------------- | ---------------- | ---------- | --------- |
+| Icon  | {cf_service_icon} | Tile | N | N | Y | Allowed: Image, Directory: Service Images, Show Existing: Y |
+| Description  | {cf_service_description} | Textarea | N | Y | Y | Rows: 9, Formatting: XHTML |
+
+##### Shared Fields
+
+| Field Name | Field Short Name | Field Type | Required | Searchable | Default | Notes |
+| ----------------  | ------------------------ | --------------- | ------------- | ---------------- | ---------- | --------- |
+| Teaser  | {cf_shared_teaser} | Textarea | N | N | Y | Rows: 3, Formatting: None |
+| Body  | {cf_shared_body} | Textarea | N | Y | Y | Rows: 9, Formatting: XHTML |
+| Image  | {cf_shared_image} | File | N | N | Y | Allowed: Image, Directory: Site Uploads, Show Existing: Y |
+| Featured Work  | {cf_shared_featured_work} | Relationships | N | N | Y | Channels: Portfolio, Category: Any, Authors: Any, Status: Open, Multiple: Y |
+
+##### Team Fields
+
+| Field Name | Field Short Name | Field Type | Required | Searchable | Default | Notes |
+| ----------------  | ------------------------ | --------------- | ------------- | ---------------- | ---------- | --------- |
+| Postion  | {cf_team_position} | Text Input | N | Y | Y | Length: 128, Formatting, None, Content: All |
+| Photo  | {cf_team_photo} | File | N | N | Y | Allowed: Image, Directory: Team Images, Show Existing: Y |
 
 #### <a name="statuses"></a> Statuses
 
-TBD.
+| Status Group | Status Name | Status |
+| ------------------ | ------------------- | -------- | 
+| Statuses | Open | open |
+|  | Closed | closed |
 
 #### <a name="categories"></a> Categories
 
-TBD.
+| Category Group | Order | Category Name | Category URL Title | 
+| ----------------  | --------------- | ----------------------- | -------------------------- |
+| Blog Categories | Alpha | Article | article |
+| | | Case Study | case-study |
+| | | News | news |
+
+#### <a name="uploads"></a> Upload Directories
+
+| ID | Name | Path | URL | File Types | Category Groups | Manipulations | Access | Notes |
+| --- | --------  | ------ | ------ | ------------- | ------------------------------- | ------------------------------ | ---------- |
+| 1 | Site Uploads | ```./public/assets/uploads/site/``` | ```/assets/uploads/site/``` | All |  |  | Superadmins, Members |  |
+| 2 | Team Images | ```./public/assets/uploads/team/``` | ```/assets/uploads/team/``` | Images |  |  | Superadmins, Members |  |
+| 3 | Services Images | ```./public/assets/uploads/services/``` | ```/assets/uploads/services/``` | Images |  |  | Superadmins, Members |  |
+| 4 | Portfolio Images | ```./public/assets/uploads/portfolio/``` | ```/assets/uploads/portfolio/``` | Images |  |  | Superadmins, Members |  |
+
+#### <a name="templates"></a> Templates
+
+**FINISH THIS**
+
+## <a name="add-ons"></a> Add-ons
+
+**FINISH THIS**
 
 #### <a name="member-groups"></a> Member Groups
 
-TBD.
+Superadmin, yo.
 
 ---
 

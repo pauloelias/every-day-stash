@@ -24,5 +24,6 @@
 
 ## <a name="documentation"></a> Documentation
 
-* Fill out [Project README](./README.md)
+* Fill out **Templates** in [Project README](./README.md#templates)
+* Fill out **Add-ons** in [Project README](./README.md#add-ons)
 * Update [Changelog](./docs/upgrade_log.md)
