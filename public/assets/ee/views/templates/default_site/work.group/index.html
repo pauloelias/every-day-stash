@@ -1,1 +1,23 @@
-<h1>Work</h1>
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/work.group/index.html
+  TYPE: Routing Template
+  DEPENDENCIES: Stash, Switchee
+  DESCRIPTION:  Work landing page template to display either listing/landing page
+                or detail page
+============================================================================ --}
+{exp:switchee variable="{segment_2}" parse="inward"}
+  {!--
+    Detect pagination or empty segment_2 for the listing page
+  --}
+  {case value="#^P(\d+)$#|''"}
+    {embed="work/_listing"}
+  {/case}
+
+  {!--
+    Detail page
+  --}
+  {case default="yes"}
+    {embed="work/_detail"}
+  {/case}
+
+{/exp:switchee}

@@ -1,1 +1,113 @@
-<h1>Services</h1>
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/services.group/index.html
+  TYPE: View-Model
+  DEPENDENCIES: Stash, Grid, Relationships
+  DESCRIPTION: Services template
+============================================================================ --}
+{!-- Set the layout ======================================================== --}
+{stash:embed:layouts:base}
+
+
+{!-- Set variables ========================================================= --}
+
+
+
+{!-- Models ================================================================ --}
+{!--
+  Shared page fields model found at:
+  ./public/assets/ee/views/stash/models/md_page_fields.html
+--}
+{stash:embed:models:md_page_fields
+  stash:url_title="{last_segment}"
+  parse="no"
+  process="start"
+}
+
+{!--
+  We're only showing this on the Services page so we don't need to abstract it
+ --}
+{!-- Grab the services listing --}
+{exp:stash:set_list
+  name="services"
+  parse_tags="yes"
+}
+
+  {exp:channel:entries
+    channel="ch_services"
+    disable="categories|category_fields|member_data|pagination"
+    status="open"
+    dynamic="no"
+  }
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:service_icon}{cf_service_icon}{/stash:service_icon}
+    {stash:service_description}{cf_service_description}{/stash:service_description}
+  {/exp:channel:entries}
+
+{/exp:stash:set_list}
+
+
+
+{!-- Views ================================================================= --}
+{!-- Page Content: content-primary --}
+{exp:stash:set name="content-primary"}
+
+  {!--
+    HTML snippet to display page entry fields:
+    ./public/assets/ee/views/stash/snippets/sn_html_page_entry.html
+  --}
+  {stash:embed:snippets:sn_html_page_entry
+    parse="no"
+    process="start"
+  }
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-secondary --}
+{exp:stash:set name="content-secondary"}
+
+  {!--
+    We're only showing this on the Services so we don't need to abstract it yet
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+   --}
+  {if {exp:stash:not_empty name="services"}}
+    {exp:stash:get_list
+      name="services"
+      compress="yes"
+      prefix="list"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Work Categories.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {if list:service_icon}
+              <img src="{list:service_icon}" alt="{list:title} Icon">
+            {/if}
+            {if list:title}
+              <h2>{list:title}</h2>
+            {/if}
+
+            {if list:service_description}
+              {list:service_description}
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-featured --}
+{exp:stash:set name="content-featured"}
+
+{/exp:stash:set}

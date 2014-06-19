@@ -1,0 +1,23 @@
+{exp:channel:entries
+  channel="ch_portfolio"
+  disable="categories|category_fields|member_data|pagination"
+  status="open"
+  dynamic="no"
+}
+  {channel_name} / {entry_id} / {url_title}
+  <br>
+
+  <h1>{title}</h1>
+
+  {cf_port_description}
+
+  {cf_port_gallery}
+    {cf_port_gallery:field_row_count} / {cf_port_gallery:caption}
+    <br>
+    {cf_port_gallery:image}
+    <br>
+  {/cf_port_gallery}
+
+  <hr>
+
+{/exp:channel:entries}

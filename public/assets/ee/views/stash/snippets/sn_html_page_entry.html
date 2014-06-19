@@ -1,0 +1,17 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/snippets/sn_html_page_entry.html
+  TYPE: Stash Snippet
+  DEPENDENCIES: Stash
+  DESCRIPTION: HTML output for page entries
+============================================================================ --}
+{if {exp:stash:not_empty name="title"}}
+  <h1>{stash:title}</h1>
+{/if}
+
+{if {exp:stash:not_empty name="content"}}
+  {stash:content}
+{/if}
+
+{if {exp:stash:not_empty name="image"}}
+  <img src="{stash:image}" alt="Featured Image">
+{/if}

@@ -1,1 +1,52 @@
-<h1>About Us</h1>
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/about.group/index.html
+  TYPE: View-Model
+  DEPENDENCIES: Stash, Grid, Relationships
+  DESCRIPTION: About page template
+============================================================================ --}
+{!-- Set the layout ======================================================== --}
+{stash:embed:layouts:base}
+
+
+{!-- Set variables ========================================================= --}
+
+
+
+{!-- Models ================================================================ --}
+{!--
+  Shared page fields model found at:
+  ./public/assets/ee/views/stash/models/md_page_fields.html
+--}
+{stash:embed:models:md_page_fields
+  stash:url_title="{last_segment}"
+  parse="no"
+  process="start"
+}
+
+
+{!-- Views ================================================================= --}
+{!-- Page Content: content-primary --}
+{exp:stash:set name="content-primary"}
+
+  {!--
+    HTML snippet to display page entry fields:
+    ./public/assets/ee/views/stash/snippets/sn_html_page_entry.html
+  --}
+  {stash:embed:snippets:sn_html_page_entry
+    parse="no"
+    process="start"
+  }
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-secondary --}
+{exp:stash:set name="content-secondary"}
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-featured --}
+{exp:stash:set name="content-featured"}
+
+{/exp:stash:set}

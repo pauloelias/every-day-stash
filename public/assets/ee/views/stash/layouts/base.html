@@ -10,11 +10,23 @@
 }
   <div class="page-wrapper">
 
-    <main>
-      {if {exp:stash:not_empty name="content-primary"}}
+    {if {exp:stash:not_empty name="content-primary"}}
+      <main class="content-primary">
         {stash:content-primary}
-      {/if}
-    </main>
+      </main>
+    {/if}
+
+    {if {exp:stash:not_empty name="content-secondary"}}
+      <section class="content-secondary">
+        {stash:content-secondary}
+      </section>
+    {/if}
+
+    {if {exp:stash:not_empty name="content-featured"}}
+      <div class="content-featured">
+        {stash:content-featured}
+      </div>
+    {/if}
 
   </div> <!-- /END .page-wrapper -->
 

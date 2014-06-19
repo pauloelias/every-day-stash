@@ -170,7 +170,7 @@ if (isset($config))
   $env_config['save_tmpl_files']           = 'y';
   // $env_config['save_tmpl_files']             = (ENV == 'prod') ? 'n' : 'y';
   $env_config['tmpl_file_basepath']          = $base_path . '/' . $static_folder . '/ee/views/templates/';
-  $env_config['hidden_template_indicator']   = '.';
+  $env_config['hidden_template_indicator']   = '_';
 
 
 

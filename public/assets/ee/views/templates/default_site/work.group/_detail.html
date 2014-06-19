@@ -1,0 +1,130 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/site.group/_detail.html
+  TYPE: View-Model
+  DEPENDENCIES: Stash, Grid, Relationships
+  DESCRIPTION: Work detail template
+============================================================================ --}
+{!-- Set the layout ======================================================== --}
+{stash:embed:layouts:base}
+
+
+{!-- Set variables ========================================================= --}
+
+
+
+{!-- Models ================================================================ --}
+{exp:channel:entries
+  channel="ch_portfolio"
+  limit="1"
+  require_entry="yes"
+  disable="categories|category_fields|member_data|pagination"
+  status="open"
+  url_title="{last_segment}"
+  dynamic="no"
+}
+
+  {exp:stash:set}
+    {!-- Moar abstractions --}
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:content}{cf_port_description}{/stash:content}
+  {/exp:stash:set}
+
+  {!-- Set lists from looping fieldtypes --}
+  {!-- Grid field --}
+  {exp:stash:set_list
+    name="portfolio_gallery"
+    parse_tags="yes"
+  }
+    {cf_port_gallery}
+      {stash:caption}{cf_port_gallery:caption}{/stash:caption}
+      {stash:image}{cf_port_gallery:image}{/stash:image}
+    {/cf_port_gallery}
+  {/exp:stash:set_list}
+
+  {!-- Relationship field --}
+  {exp:stash:set_list
+    name="portfolio_categories"
+    parse_tags="yes"
+  }
+    {cf_port_services}
+      {stash:service_icon}{cf_port_services:cf_service_icon}{/stash:service_icon}
+      {stash:service_title}{cf_port_services:title}{/stash:service_title}
+      {stash:service_description}{cf_port_services:cf_service_description}{/stash:service_description}
+    {/cf_port_services}
+  {/exp:stash:set_list}
+
+{/exp:channel:entries}
+
+
+{!-- Views ================================================================= --}
+{!-- Page Content: content-primary --}
+{exp:stash:set name="content-primary"}
+
+  {if {exp:stash:not_empty name="title"}}
+    <h1>{stash:title}</h1>
+  {/if}
+
+  {if {exp:stash:not_empty name="content"}}
+    {stash:content}
+  {/if}
+
+  {if {exp:stash:not_empty name="portfolio_gallery"}}
+    {exp:stash:get_list
+      name="portfolio_gallery"
+      compress="yes"
+      prefix="list"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Portfolio Gallery Items.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {if list:caption}
+              <p>{list:caption}</p>
+            {/if}
+
+            {if list:image}
+              <img src="{list:image}" alt="{list:caption}">
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
+
+  {if {exp:stash:not_empty name="portfolio_categories"}}
+    {exp:stash:get_list
+      name="portfolio_categories"
+      compress="yes"
+      prefix="list"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Portfolio Categories.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {if list:service_icon AND list:service_title}
+              <img src="{list:service_icon}" alt="{list:service_title}" width="20">
+            {/if}
+
+            {if list:service_title}
+              {list:service_title}
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
+
+{/exp:stash:set}

@@ -1,0 +1,57 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/models/md_page_fields.html
+  TYPE: Stash Model
+  DEPENDENCIES: Stash
+  DESCRIPTION: Global page entry variables
+============================================================================ --}
+{exp:channel:entries
+  channel="ch_pages"
+  limit="1"
+  require_entry="yes"
+  disable="categories|category_fields|member_data|pagination"
+  status="open"
+  url_title="{stash:url_title}"
+  dynamic="no"
+}
+
+  {exp:stash:set}
+    {!-- Moar abstractions --}
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:content}{cf_shared_body}{/stash:content}
+    {stash:image}{cf_shared_image}{/stash:image}
+  {/exp:stash:set}
+
+  {!-- Set lists from looping fieldtypes --}
+  {exp:stash:set_list
+    name="featured_work"
+    parse_tags="yes"
+    parse_depth="2"
+  }
+    {!-- This is a Relationship field --}
+    {cf_shared_featured_work}
+      {!--
+        We can't use "sn_global_fields" here due to how the native relationship fieldtype prefixes variables
+      --}
+      {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
+      {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
+      {stash:title}{cf_shared_featured_work:title}{/stash:title}
+      {stash:content}{cf_shared_featured_work:cf_port_description}{/stash:content}
+
+      {!-- Nested Grid field --}
+      {exp:stash:set_list:nested
+        name="featured_gallery"
+        context="{cf_shared_featured_work:entry_id}"
+        parse_tags="yes"
+      }
+        {cf_shared_featured_work:cf_port_gallery}
+          {stash:caption}{cf_port_gallery:caption}{/stash:caption}
+          {stash:image}{cf_port_gallery:image}{/stash:image}
+        {/cf_shared_featured_work:cf_port_gallery}
+      {/exp:stash:set_list:nested}
+    {/cf_shared_featured_work}
+  {/exp:stash:set_list}
+
+{/exp:channel:entries}

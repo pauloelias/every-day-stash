@@ -1,0 +1,53 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/stash/snippets/sn_featured_work_band.html
+  TYPE: Stash Snippet
+  DEPENDENCIES: Stash
+  DESCRIPTION: Featured Work band found on content entries
+============================================================================ --}
+{exp:stash:get_list
+  name="featured_work"
+  compress="yes"
+  prefix="list"
+  orderby="random"
+}
+  {if list:no_results}
+    <p class="notice">Sorry, we can't display any Featured Work.</p>
+  {/if}
+
+  {if list:count == 1}
+    <ul>
+  {/if}
+      <li>
+        {if list:title}
+          <h2>{list:title}</h2>
+        {/if}
+
+        {if list:content}
+          {list:content}
+        {/if}
+
+        {exp:stash:get_list:nested
+          name="featured_gallery"
+          context="{list:entry_id}"
+          compress="yes"
+          prefix="nested"
+          limit="1"
+          sort="asc"
+        }
+          {if nested:no_results}
+            <p class="notice">Sorry, we can't display an Image Gallery.</p>
+          {/if}
+
+          {if nested:caption}
+            <h3>{nested:caption}</h3>
+          {/if}
+
+          {if nested:image}
+            <img src="{nested:image}" alt="{nested:caption}">
+          {/if}
+        {/exp:stash:get_list:nested}
+      </li>
+  {if list:count == list:total_results}
+    </ul>
+  {/if}
+{/exp:stash:get_list}

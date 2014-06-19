@@ -1,0 +1,115 @@
+{!-- ===========================================================================
+  FILE: public/assets/ee/views/templates/default_site/work.group/_listing.html
+  TYPE: View-Model
+  DEPENDENCIES: Stash, Grid
+  DESCRIPTION: Work listing template
+============================================================================ --}
+{!-- Set the layout ======================================================== --}
+{stash:embed:layouts:base}
+
+
+{!-- Set variables ========================================================= --}
+
+
+
+{!-- Models ================================================================ --}
+{!--
+  We're only showing this the portfolio listing on the Portfolio/Work listing/landing page so we don't need to abstract it
+ --}
+{!-- Grab the Portfolio Items --}
+{exp:stash:set_list
+  name="portfolio_listing"
+  parse_tags="yes"
+  parse_depth="2"
+}
+
+  {exp:channel:entries
+    channel="ch_portfolio"
+    disable="categories|category_fields|member_data|pagination"
+    status="open"
+    dynamic="no"
+  }
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:content}{cf_port_description}{/stash:content}
+
+    {!-- Nested Grid field --}
+    {exp:stash:set_list:nested
+      name="portfolio_gallery"
+      context="{entry_id}"
+      parse_tags="yes"
+    }
+      {cf_port_gallery}
+        {stash:port_caption}{cf_port_gallery:caption}{/stash:port_caption}
+        {stash:port_image}{cf_port_gallery:image}{/stash:port_image}
+      {/cf_port_gallery}
+    {/exp:stash:set_list:nested}
+  {/exp:channel:entries}
+
+{/exp:stash:set_list}
+
+
+{!-- Views ================================================================= --}
+{!-- Page Content: content-primary --}
+{exp:stash:set name="content-primary"}
+
+  {if {exp:stash:not_empty name="portfolio_listing"}}
+    {exp:stash:get_list
+      name="portfolio_listing"
+      prefix="list"
+      compress="yes"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Portfolio Samples.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {!--
+              Check to see if the nested list is empty by assigning the context to it
+            --}
+            {if {exp:stash:not_empty
+              name="portfolio_gallery"
+              context="{list:entry_id}"}
+            }
+              {exp:stash:get_list:nested
+                name="portfolio_gallery"
+                context="{list:entry_id}"
+                prefix="nested"
+                limit="1"
+                sort="asc"
+                compress="yes"
+              }
+                {if nested:no_results}
+                  <p class="notice">Sorry, we can't display an Image Gallery.</p>
+                {/if}
+
+                {if list:content}
+                  <p>{exp:streeng allowed="none" words="10"}{list:content}{/exp:streeng}</p>
+                {/if}
+
+                {if nested:port_caption}
+                  <p>{nested:port_caption}</p>
+                {/if}
+
+                {if nested:port_image}
+                  <img src="{nested:port_image}" alt="{nested:port_caption}">
+                {/if}
+              {/exp:stash:get_list:nested}
+            {/if}
+
+            {if list:title}
+              <h2><a href="{path='work/{list:url_title}'}">{list:title}</a></h2>
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
+
+{/exp:stash:set}

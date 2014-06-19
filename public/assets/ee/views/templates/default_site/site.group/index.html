@@ -1,7 +1,7 @@
 {!-- ===========================================================================
   FILE: public/assets/ee/views/templates/default_site/site.group/index.html
   TYPE: View-Model
-  DEPENDENCIES: Stash
+  DEPENDENCIES: Stash, Grid, Relationships
   DESCRIPTION: Homepage template
 ============================================================================ --}
 {!-- Set the layout ======================================================== --}
@@ -13,146 +13,109 @@
 
 
 {!-- Models ================================================================ --}
-{!-- Grab the homepage content --}
-{exp:channel:entries
-  channel="ch_pages"
-  limit="1"
-  require_entry="yes"
-  disable="categories|category_fields|member_data|pagination"
-  status="open"
-  url_title="homepage"
-  dynamic="no"
+{!--
+  Shared page fields model found at:
+  ./public/assets/ee/views/stash/models/md_page_fields.html
+--}
+{stash:embed:models:md_page_fields
+  stash:url_title="homepage"
+  parse="no"
+  process="start"
 }
 
-  {exp:stash:set}
-    {stash:embed:snippets:sn_global_entry_fields
-      parse="no"
-      process="start"
-    }
-    {stash:content}{cf_shared_body}{/stash:content}
-    {stash:image}{cf_shared_image}{/stash:image}
-  {/exp:stash:set}
-
-  {!-- Set lists from looping fieldtypes --}
-  {exp:stash:set_list
-    name="featured_work"
-    parse_tags="yes"
-    parse_depth="2"
-  }
-    {!-- This is a Relationship field --}
-    {cf_shared_featured_work}
-      {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
-      {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
-      {stash:title}{cf_shared_featured_work:title}{/stash:title}
-      {stash:content}{cf_shared_featured_work:cf_port_description}{/stash:content}
-      {!-- Nested Grid field --}
-      {exp:stash:set_list:nested
-        name="featured_gallery"
-        context="{cf_shared_featured_work:entry_id}"
-        parse_tags="yes"
-      }
-        {cf_shared_featured_work:cf_port_gallery}
-          {stash:caption}{cf_port_gallery:caption}{/stash:caption}
-          {stash:image}{cf_port_gallery:image}{/stash:image}
-        {/cf_shared_featured_work:cf_port_gallery}
-      {/exp:stash:set_list:nested}
-    {/cf_shared_featured_work}
-  {/exp:stash:set_list}
-
-{/exp:channel:entries}
-
+{!--
+  We're only showing this on the homepage so we don't need to abstract it
+ --}
 {!-- Grab the page teasers --}
 {exp:stash:set_list
   name="page_teasers"
   parse_tags="yes"
 }
+
   {exp:channel:entries
     channel="ch_pages"
     disable="categories|category_fields|member_data|pagination"
     status="open"
     dynamic="no"
   }
-
-      {stash:embed:snippets:sn_global_entry_fields
-        parse="no"
-        process="start"
-      }
-      {stash:teaser}{cf_shared_teaser}{/stash:teaser}
-
+    {stash:embed:snippets:sn_global_fields
+      parse="no"
+      process="start"
+    }
+    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
   {/exp:channel:entries}
+
 {/exp:stash:set_list}
 
 
 
 {!-- Views ================================================================= --}
-{!-- Events Listing: content-primary --}
+{!-- Page Content: content-primary --}
 {exp:stash:set name="content-primary"}
 
-  <h1>{stash:title}</h1>
-
-  {stash:content}
-
-  <img src="{stash:image}" alt="Featured Image">
-
-  {exp:stash:get_list
-    name="page_teasers"
-    match="#^((?!.*(home)).*)$#"
-    against="url_title"
-    compress="yes"
-    prefix="list"
+  {!--
+    HTML snippet to display page entry fields:
+    ./public/assets/ee/views/stash/snippets/sn_html_page_entry.html
+  --}
+  {stash:embed:snippets:sn_html_page_entry
+    parse="no"
+    process="start"
   }
-    {if list:no_results}
-      <p class="notice">Sorry, we can't display any results.</p>
-    {/if}
 
-    {if list:count == 1}
-      <ul>
-    {/if}
-        <li>
-          <h2><a href="{path='{list:url_title}'}">{list:title}</a></h2>
-          {list:teaser}
-        </li>
-    {if list:count == list:total_results}
-      </ul>
-    {/if}
-  {/exp:stash:get_list}
+{/exp:stash:set}
 
-  {exp:stash:get_list
-    name="featured_work"
-    compress="yes"
-    prefix="list"
-  }
-    {if list:no_results}
-      <p class="notice">Sorry, we can't display any results.</p>
-    {/if}
 
-    {if list:count == 1}
-      <ul>
-    {/if}
-        <li>
-          <h2>{list:entry_id} {list:title}</h2>
-          {list:content}
+{!-- Page Content: content-secondary --}
+{exp:stash:set name="content-secondary"}
 
-          {exp:stash:get_list:nested
-            name="featured_gallery"
-            context="{list:entry_id}"
-            compress="yes"
-            prefix="nested"
-            limit="1"
-            sort="asc"
-          }
-            {if nested:no_results}
-              <p class="notice" style="color:red;font-weight:bold;">Sorry, we can't display any results.</p>
+  {!--
+    We're only showing this on the homepage so we don't need to abstract it yet
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+   --}
+  {if {exp:stash:not_empty name="page_teasers"}}
+    {exp:stash:get_list
+      name="page_teasers"
+      match="#^((?!.*(home)).*)$#"
+      against="url_title"
+      compress="yes"
+      prefix="list"
+    }
+      {if list:no_results}
+        <p class="notice">Sorry, we can't display any Page Teasers.</p>
+      {/if}
+
+      {if list:count == 1}
+        <ul>
+      {/if}
+          <li>
+            {if list:title}
+              <h2><a href="{path='{list:url_title}'}">{list:title}</a></h2>
             {/if}
+            {if list:teaser}
+              {list:teaser}
+            {/if}
+          </li>
+      {if list:count == list:total_results}
+        </ul>
+      {/if}
+    {/exp:stash:get_list}
+  {/if}
 
-            <h3>{nested:caption}</h3>
-            <img src="{nested:image}" alt="{nested:caption}">
-          {/exp:stash:get_list:nested}
+{/exp:stash:set}
 
-        </li>
-    {if list:count == list:total_results}
-      </ul>
-    {/if}
-  {/exp:stash:get_list}
+
+{!-- Page Content: content-featured --}
+{exp:stash:set name="content-featured"}
+
+  {!--
+    Featured work variables from:
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+   --}
+  {if {exp:stash:not_empty name="featured_work"}}
+    {stash:embed:snippets:sn_featured_work_band
+      parse="no"
+      process="start"
+    }
+  {/if}
 
 {/exp:stash:set}
