@@ -22,7 +22,7 @@
     $env_config['m62_backup']['max_file_backups'] = 7;
 
     //setup cron
-    $env_config['m62_backup']['cron_notify_emails'] = array('wearequickpixel@gmail.com'); //change these
+    $env_config['m62_backup']['cron_notify_emails'] = array(''); //change these
     $env_config['m62_backup']['cron_attach_backups'] = '0';
     $env_config['m62_backup']['cron_attach_threshold'] = '0';
 

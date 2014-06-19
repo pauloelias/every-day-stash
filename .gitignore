@@ -104,9 +104,9 @@ public/assets/ee/logs/*
 !public/assets/ee/codeigniter/system/logs/.gitkeep
 
 
-# UGC
-public/assets/uploads/*
-!public/assets/uploads/index.html
+# UGC | Normalley we don't want to keep file uploads in our repo
+# public/assets/uploads/*
+#!public/assets/uploads/index.html
 
 
 # BACKUPS

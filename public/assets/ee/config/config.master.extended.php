@@ -62,8 +62,8 @@
   $env_config['honor_entry_dst']          = date('I') ? 'y' : 'n'; // Autodetect DST; y|n
 
   // Email Configuration
-  $env_config['webmaster_email']          = 'wearequickpixel@gmail.com';
-  $env_config['webmaster_name']           = 'QuickPixel';
+  $env_config['webmaster_email']          = '';
+  $env_config['webmaster_name']           = '';
   $env_config['email_charset']            = 'utf-8';
   $env_config['mail_protocol']            = 'mail'; // mail|sendmail|smtp
   $env_config['smtp_server']              = '';

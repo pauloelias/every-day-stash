@@ -1,6 +1,6 @@
 # Every Day Stash
 
-Sample ExpressionEngine Website to demonstrate Stash concepts.
+Sample ExpressionEngine portoflio website to demonstrate Stash concepts.
 
 Created by [Paulo Elias](https://twitter.com/pauloelias)
 
@@ -22,24 +22,17 @@ Created by [Paulo Elias](https://twitter.com/pauloelias)
 
 ## <a name="overview"></a> Project Overview
 
-Sample ExpressionEngine Website to demonstrate Stash concepts.
+This is a sample ExpressionEngine Website to demonstrate common [Stash](https://github.com/croxton/Stash) concepts. This is by no means an exhaustive reference. It is meant to be used as a teaching tool to introduce Stash to beginners and built upon to incorporate more advanced techniques.
 
----
+This project comes bundled with a modified version of [QuickBoot](https://github.com/QuickPixel/quickboot). QuickBoot is a frontend bootstrap used to build assets, watch files for changes, and provide a local development server with livereload for frontend assets.
 
-## <a name="documentation"></a> Detailed Documentation
-
-Detailed documentation can be found at:
-
-* [Frontend Documentation](./docs/frontend.md)
-* [Developer Documentation](./docs/developer.md)
-* [Upgrade Log](./docs/upgrade_log.md)
-* [Change Log](./docs/change_log.md)
+While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightweight development server, the included server is meant to be used during static template development. Use your local version of Apache, PHP, and MySQL to serve your EECMS site as you normally would. When you use ```gulp watch``` with live reload you will still see changes you make to your EECMS templates and Stash files.
 
 ---
 
 ## <a name="project-setup"></a> Project Setup
 
-### <a name="frontend"></a> Frontend
+### <a name="frontend"></a> Frontend (OPTIONAL)
 
 * Change the **project name** (currently every-day-stash) in ```.ruby-gemset```. Close and reopen the terminal window.
 * Change the **project name** and **project details** in ```package.json```
@@ -59,39 +52,74 @@ Detailed documentation can be found at:
 * Build your project ```gulp```
 * Watch project assets with Gulp and start local development server
 	* ```gulp watch```
-	* Then visit [http://localhost:8080/](http://localhost:8080/) in your web browser
+	* Then visit your local site in your web browser
 * Additional gulp tasks
   * Create project skeleton: ```gulp skeleton```
   * Clean project distribution directory (./public): ```gulp clean```
   * Build for Production to minify and optimize assets: ```NODE_ENV=production gulp```
 
-More details, including a full task list, can be found in the [Frontend Documentation](./docs/frontend.md)
+### <a name="backend"></a> ExpressionEngine (Sort of important ;)
 
-### <a name="backend"></a> Application/Backend
-
-This is just a placeholder for now. Helpful for maintenance when you handoff or need to maintain a CMS/web app.
-
-Full developer documentation can be found in the [Developer Documentation](./docs/developer.md)
+1.  Follow the [*Frontend Configuration*](#frontend) (OPTIONAL)
+2. Setup your local environtment:
+	1. Download [ExpressionEngine 2.8.1](http://ellislab.com/expressionengine) (this site should work with [EE Core](https://store.ellislab.com/#ee-core))
+	2. Clone this project: 	```git clonehttps://github.com/pauloelias/every-day-stash.git && cd every-day-stash```
+	3. Configure a virtual host for ```everydaystash.dev```
+	4. Setup a MySQL database and import data: ```./data/every-day-stash.sql```
+	5. Copy the EECMS source files to:
+		1. ```themes``` => ```./public/themes```
+		2. ```system``` => ```./public/assets/ee/system``` (delete the installer files)
+	6. Update the provided [Focus Lab, LLC's EE Master Config](https://github.com/focuslabllc/ee-master-config) files:
+		1. Rename: ```./public/assets/ee/config/config.local.php.sample``` => ```./public/assets/ee/config/config.local.php```
+		2. Enter your database settings into ```./public/assets/ee/config/config.local.php```
+		3. Edit EECMS's config.php and databse.php files to reference the EE Master Config:
+			1. **config.php**" ```./public/assets/ee/system/expressionengine/config/config.php```
+				1. Add to the bottom of the file, below "End of file config.php": ```require $_SERVER['DOCUMENT_ROOT'] . '/assets/ee/config/config.master.php';```
+			2. **database.php**" ```./public/assets/ee/system/expressionengine/config/database.php```
+				1. Add to the bottom of the file, below "End of file config.php": ```require $_SERVER['DOCUMENT_ROOT'] . '/assets/ee/config/config.master.php';```
+	7. Review and modify settings in as needed:
+		1.  ```./public/assets/ee/config/config.master.php```
+		2.  ```./public/assets/ee/config/config.master.extended.php```
+		3.  ```./public/assets/ee/config/config.master.third.php```
+	8. Review and adjust permission as needed [per the User Guide](http://ellislab.com/expressionengine/user-guide/installation/installation.html#set-file-permissions)
+	9. Visit the site and log into the control panel:
+		1. http://everydaystash.dev/
+		2. http://everydaystash.dev/cp/
+			1. USER: stash
+			2. PASS: 21wqsaxZ
 
 ---
 
 ## <a name="configuration"></a> Configuration
 
-### Frontend Configuration
-
-Detailed frontend configuration documentation can be found in [Frontend Documentation](./docs/frontend.md#configuration)
-
 ### Backend Configuration
 
-Detailed backend configuration documentation can be found in [Developer Documentation](./docs/developer#configuration)
+#### File locations
 
-## <a name="notes"></a> Notes
+* EE Master Config files: ```./public/assets/ee/config```
+* EECMS system: ```./public/assets/ee/system```
+* EECMS system cache: ```./public/assets/ee/system/expressionengine/cache```
+* EECMS images: ```./public/assets/ee/images```
+* Cache (add-ons's etc.): ```./public/cache```
+* Uploads: ```./public/assets/uploads```
+* Control panel: ```./public/cp/index.php``` (instead of leaving ```admin.php``` at the public web root)
+* Third-party add-ons: ```./public/assets/ee/add-ons```
+* Third-party add-ons: ```./public/themes/third_party```
+
+#### URLs
+
+* Frontend: http://everydaystash.dev/
+* Control Panel: http://everydaystash.dev/cp/
+	* USER: stash
+	* PASS: 21wqsaxZ
 
 ---
 
-## <a name="todo"></a> To Do
+## <a name="notes"></a> Notes
 
-* **Documentation** Finish this damn documentation!
+### <a name="naming-conventions"></a> Naming Conventions
+
+This project uses the following naming conventions:
 
 ---
 

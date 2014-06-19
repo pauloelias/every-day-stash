@@ -16,13 +16,13 @@ if (!defined('ENV'))
 {
 	switch ($_SERVER['HTTP_HOST']) {
 
-		case 'eds.qp-staging.com' :
+		case 'eds.staging.com' :
 			define('ENV', 'stage');
 			define('ENV_FULL', 'Staging');
 			define('ENV_DEBUG', FALSE);
 		break;
 
-		case 'eds.qp-dev.com' :
+		case 'eds.dev.com' :
 			define('ENV', 'dev');
 			define('ENV_FULL', 'Development');
 			define('ENV_DEBUG', TRUE);

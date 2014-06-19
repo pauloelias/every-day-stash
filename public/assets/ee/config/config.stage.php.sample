@@ -1,0 +1,32 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * Staging config overrides & db credentials
+ *
+ * Our database credentials and any environment-specific overrides
+ *
+ * @package    Focus Lab Master Config
+ * @version    1.1.1
+ * @author     Focus Lab, LLC <dev@focuslabllc.com>
+ */
+
+$env_db['hostname'] = '';
+$env_db['username'] = '';
+$env_db['password'] = '';
+$env_db['database'] = '';
+
+
+// CE Cache
+// $env_config['ce_cache_off'] = 'no';
+// $env_config['ce_cache_drivers'] = 'file|db'; // file|db|apc
+
+// Staging testing email address
+$env_config['mail_protocol']            = 'mail'; // mail|sendmail|smtp
+$env_config['smtp_server']              = '';
+$env_config['smtp_port']                = '';
+$env_config['smtp_username']            = '';
+$env_config['smtp_password']            = '';
+$env_config['webmaster_email']          = '';
+
+/* End of file config.stage.php */
+/* Location: ./config/config.stage.php */
