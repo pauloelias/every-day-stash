@@ -4,8 +4,16 @@
   DEPENDENCIES: Stash, Grid, Relationships
   DESCRIPTION: About page template
 ============================================================================ --}
+{!-- Let's trigger 404s ==================================================== --}
+{if segment_2 != ""}
+  {redirect="404"}
+{/if}
+
+
+
 {!-- Set the layout ======================================================== --}
 {stash:embed:layouts:base}
+
 
 
 {!-- Set variables ========================================================= --}

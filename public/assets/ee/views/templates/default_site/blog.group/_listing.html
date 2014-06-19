@@ -4,8 +4,16 @@
   DEPENDENCIES: Stash, Grid
   DESCRIPTION: Blog listing template
 ============================================================================ --}
+{!-- Let's trigger 404s ==================================================== --}
+{if segment_3 != ""}
+  {redirect="404"}
+{/if}
+
+
+
 {!-- Set the layout ======================================================== --}
 {stash:embed:layouts:base}
+
 
 
 {!-- Set variables ========================================================= --}
@@ -17,7 +25,7 @@
 {exp:stash:set_list
   name="blog"
   parse_tags="yes"
-  parse_depth="4"
+  parse_depth="2"
 }
 
   {exp:channel:entries
@@ -36,19 +44,6 @@
     {stash:teaser}{cf_shared_teaser}{/stash:teaser}
     {stash:featured_image}{cf_shared_image}{/stash:featured_image}
     {stash:content}{cf_shared_body}{/stash:content}
-
-    {!-- Nested Relationship field --}
-    {exp:stash:set_list:nested
-      name="featured_project"
-      context="{entry_id}"
-      parse_tags="yes"
-    }
-      {cf_shared_featured_work}
-        {stash:title}{cf_shared_featured_work:title}{/stash:title}
-        {stash:url_title}{cf_shared_featured_work:url_title}{/stash:url_title}
-        {stash:description}{cf_shared_featured_work:cf_port_description}{/stash:description}
-      {/cf_shared_featured_work}
-    {/exp:stash:set_list:nested}
   {/exp:channel:entries}
 
 {/exp:stash:set_list}
@@ -91,46 +86,23 @@
             {if list:featured_image}
               <img src="{list:featured_image}" alt="{list:title}">
             {/if}
-
-            {!--
-              Check to see if the nested list is empty by assigning the context to it
-            --}
-            {if {exp:stash:not_empty
-              name="featured_project"
-              context="{list:entry_id}"}
-            }
-              {exp:stash:get_list:nested
-                name="featured_project"
-                context="{list:entry_id}"
-                prefix="nested"
-                limit="1"
-                sort="asc"
-                compress="yes"
-              }
-                {if nested:no_results}
-                  <p class="notice">Sorry, we can't display a Featured Project.</p>
-                {/if}
-
-                {if nested:title}
-                  <h3>{nested:title} - {nested:url_title}</h3>
-                {/if}
-
-                {if nested:description}
-                  <h4>{exp:streeng allowed="none" words="10"}{nested:description}{/exp:streeng}</h4>
-                {/if}
-
-                {if nested:port_image}
-                  <img src="{nested:port_image}" alt="{nested:port_caption}">
-                {/if}
-
-                <hr>
-              {/exp:stash:get_list:nested}
-            {/if}
           </li>
       {if list:count == list:total_results}
         </ul>
       {/if}
     {/exp:stash:get_list}
   {/if}
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-secondary --}
+{exp:stash:set name="content-secondary"}
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-featured --}
+{exp:stash:set name="content-featured"}
 
 {/exp:stash:set}

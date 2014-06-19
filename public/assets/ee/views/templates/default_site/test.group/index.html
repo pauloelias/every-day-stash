@@ -1,7 +1,10 @@
+<h1>Portfolio</h1>
+
 {exp:channel:entries
   channel="ch_portfolio"
   disable="categories|category_fields|member_data|pagination"
   status="open"
+  limit="1"
   dynamic="no"
 }
   {channel_name} / {entry_id} / {url_title}
@@ -11,7 +14,7 @@
 
   {cf_port_description}
 
-  {cf_port_gallery}
+  {cf_port_gallery limit="1"}
     {cf_port_gallery:field_row_count} / {cf_port_gallery:caption}
     <br>
     {cf_port_gallery:image}
@@ -20,4 +23,56 @@
 
   <hr>
 
+{/exp:channel:entries}
+
+<hr>
+
+<h1>Blog</h1>
+
+{exp:channel:entries
+  channel="ch_blog"
+  limit="1"
+  require_entry="yes"
+  status="open"
+  disable="category_fields|member_data|pagination"
+  dynamic="no"
+  url_title="viverra-ac-pulvinar-luctus"
+}
+  {!-- Trigger 404's --}
+  {if no_results}
+    {redirect="404"}
+  {/if}
+
+  {channel_name} / {entry_id}
+  <br>
+
+  <h2>{title} – {url_title}</h2>
+
+  <p>
+    {author} / {entry_date format="%F %d, %Y"}
+    <br>
+    {categories backspace="2"}{category_name}, {/categories}
+  </p>
+
+  <p><b>{cf_shared_teaser}</b></p>
+
+  {cf_shared_image}
+
+  {cf_shared_body}
+
+  <hr>
+
+  {!-- Nested Relationship field --}
+  {cf_shared_featured_work}
+    <h3>{cf_shared_featured_work:entry_id} / {cf_shared_featured_work:title} {cf_shared_featured_work:url_title}</h3>
+
+    {cf_shared_featured_work:cf_port_description}
+
+    {!-- Nested Grid field --}
+    {cf_shared_featured_work:cf_port_gallery}
+      {cf_port_gallery:image} / {cf_port_gallery:caption}
+    {/cf_shared_featured_work:cf_port_gallery}
+  {/cf_shared_featured_work}
+
+  <hr>
 {/exp:channel:entries}

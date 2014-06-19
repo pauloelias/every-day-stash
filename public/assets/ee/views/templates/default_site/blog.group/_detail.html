@@ -1,11 +1,19 @@
 {!-- ===========================================================================
   FILE: public/assets/ee/views/templates/default_site/blog.group/_detail.html
   TYPE: View-Model
-  DEPENDENCIES: Stash, Grid, Relationships
-  DESCRIPTION: Work detail template
+  DEPENDENCIES: Stash, Grid, Relationship
+  DESCRIPTION: Blog detail template
 ============================================================================ --}
+{!-- Let's trigger 404s ==================================================== --}
+{if segment_3 != ""}
+  {redirect="404"}
+{/if}
+
+
+
 {!-- Set the layout ======================================================== --}
 {stash:embed:layouts:base}
+
 
 
 {!-- Set variables ========================================================= --}
@@ -13,118 +21,165 @@
 
 
 {!-- Models ================================================================ --}
-{exp:channel:entries
-  channel="ch_portfolio"
-  limit="1"
-  require_entry="yes"
-  disable="categories|category_fields|member_data|pagination"
-  status="open"
-  url_title="{last_segment}"
-  dynamic="no"
+{!-- Grab the blog Items --}
+{exp:stash:set_list
+  name="blog"
+  parse_tags="yes"
+  parse_depth="2"
 }
 
-  {exp:stash:set}
-    {!-- Moar abstractions --}
+  {exp:channel:entries
+    channel="ch_blog"
+    limit="1"
+    require_entry="yes"
+    url_title="{segment_2}"
+    status="open"
+    disable="category_fields|member_data|pagination"
+    dynamic="no"
+  }
+    {!-- Trigger 404's --}
+    {if no_results}
+      {redirect="404"}
+    {/if}
+
     {stash:embed:snippets:sn_global_fields
       parse="no"
       process="start"
     }
-    {stash:content}{cf_port_description}{/stash:content}
-  {/exp:stash:set}
+    {stash:author}{author}{/stash:author}
+    {stash:entry_date}{entry_date format="%F %d, %Y"}{/stash:entry_date}
+    {stash:categories}{categories backspace="2"}{category_name}, {/categories}{/stash:categories}
+    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
+    {stash:featured_image}{cf_shared_image}{/stash:featured_image}
+    {stash:content}{cf_shared_body}{/stash:content}
 
-  {!-- Set lists from looping fieldtypes --}
-  {!-- Grid field --}
-  {exp:stash:set_list
-    name="portfolio_gallery"
-    parse_tags="yes"
-  }
-    {cf_port_gallery}
-      {stash:caption}{cf_port_gallery:caption}{/stash:caption}
-      {stash:image}{cf_port_gallery:image}{/stash:image}
-    {/cf_port_gallery}
-  {/exp:stash:set_list}
+    {!-- Nested Relationship field --}
+    {exp:stash:set_list:nested
+      name="featured_project"
+      context="{entry_id}"
+      parse_tags="yes"
+    }
 
-  {!-- Relationship field --}
-  {exp:stash:set_list
-    name="portfolio_categories"
-    parse_tags="yes"
-  }
-    {cf_port_services}
-      {stash:service_icon}{cf_port_services:cf_service_icon}{/stash:service_icon}
-      {stash:service_title}{cf_port_services:title}{/stash:service_title}
-      {stash:service_description}{cf_port_services:cf_service_description}{/stash:service_description}
-    {/cf_port_services}
-  {/exp:stash:set_list}
+      {cf_shared_featured_work}
 
-{/exp:channel:entries}
+        {stash:work_entry_id}{cf_shared_featured_work:entry_id}{/stash:work_entry_id}
+        {stash:title}{cf_shared_featured_work:title}{/stash:title}
+        {stash:url_title}{cf_shared_featured_work:url_title}{/stash:url_title}
+        {stash:description}{cf_shared_featured_work:cf_port_description}{/stash:description}
+
+        {!-- Nested Grid field --}
+        {exp:stash:set_list:nested:doh
+          name="project_image"
+          context="{cf_shared_featured_work:entry_id}"
+          parse_tags="yes"
+        }
+          {cf_shared_featured_work:cf_port_gallery}
+            {stash:gallery_image}{cf_port_gallery:image}{/stash:gallery_image}
+            {stash:gallery_caption}{cf_port_gallery:caption}{/stash:gallery_caption}
+          {/cf_shared_featured_work:cf_port_gallery}
+        {/exp:stash:set_list:nested:doh}
+      {/cf_shared_featured_work}
+    {/exp:stash:set_list:nested}
+  {/exp:channel:entries}
+
+{/exp:stash:set_list}
 
 
 {!-- Views ================================================================= --}
 {!-- Page Content: content-primary --}
 {exp:stash:set name="content-primary"}
 
-  {if {exp:stash:not_empty name="title"}}
-    <h1>{stash:title}</h1>
-  {/if}
-
-  {if {exp:stash:not_empty name="content"}}
-    {stash:content}
-  {/if}
-
-  {if {exp:stash:not_empty name="portfolio_gallery"}}
+  {if {exp:stash:not_empty name="blog"}}
     {exp:stash:get_list
-      name="portfolio_gallery"
-      compress="yes"
+      name="blog"
       prefix="list"
+      compress="yes"
     }
       {if list:no_results}
-        <p class="notice">Sorry, we can't display any Portfolio Gallery Items.</p>
+        <p class="notice">Sorry, we can't display any Blog Posts.</p>
       {/if}
 
       {if list:count == 1}
         <ul>
       {/if}
           <li>
-            {if list:caption}
-              <p>{list:caption}</p>
+            {if list:title}
+              <h2><a href="{path='blog/{list:url_title}'}">{list:title}</a> – {list:entry_id}</h2>
             {/if}
 
-            {if list:image}
-              <img src="{list:image}" alt="{list:caption}">
+            <div clas="blog-meta">
+              {if list:author}{list:author}{/if} | {if list:entry_date}{list:entry_date}{/if}
+              <br>
+              {if list:categories}{list:categories}{/if}
+            </div>
+
+            {if list:content}
+              {list:content}
+            {/if}
+
+            {if list:featured_image}
+              <img src="{list:featured_image}" alt="{list:title}">
+            {/if}
+
+            {!--
+              Check to see if the nested list is empty by assigning the context to it
+            --}
+            {if {exp:stash:not_empty
+              name="featured_project"
+              context="{list:entry_id}"}
+            }
+              {exp:stash:get_list:nested
+                name="featured_project"
+                context="{list:entry_id}"
+                prefix="nested"
+                compress="yes"
+              }
+                {if nested:no_results}
+                  <p class="notice">Sorry, we can't display a Featured Project.</p>
+                {/if}
+
+                {if nested:title}
+                  <h3>{nested:title} - {nested:work_entry_id}</h3>
+                {/if}
+
+                {if nested:description}
+                  <h4>{exp:streeng allowed="none" words="10"}{nested:description}{/exp:streeng}</h4>
+                {/if}
+
+                {exp:stash:get_list:nested:doh
+                  name="project_image"
+                  context="{nested:work_entry_id}"
+                  prefix="nested"
+                  limit="1"
+                  sort="asc"
+                  compress="yes"
+                }
+                  {if nested:no_results}
+                    <p class="notice">Sorry, we can't display a Featured Project Image.</p>
+                  {/if}
+
+                  {nested:gallery_image}
+                  {nested:gallery_caption}
+                  <hr>
+                {/exp:stash:get_list:nested:doh}
+              {/exp:stash:get_list:nested}
             {/if}
           </li>
       {if list:count == list:total_results}
         </ul>
       {/if}
     {/exp:stash:get_list}
-  {/if}
 
-  {if {exp:stash:not_empty name="portfolio_categories"}}
-    {exp:stash:get_list
-      name="portfolio_categories"
-      compress="yes"
-      prefix="list"
-    }
-      {if list:no_results}
-        <p class="notice">Sorry, we can't display any Portfolio Categories.</p>
-      {/if}
+{/exp:stash:set}
 
-      {if list:count == 1}
-        <ul>
-      {/if}
-          <li>
-            {if list:service_icon AND list:service_title}
-              <img src="{list:service_icon}" alt="{list:service_title}" width="20">
-            {/if}
 
-            {if list:service_title}
-              {list:service_title}
-            {/if}
-          </li>
-      {if list:count == list:total_results}
-        </ul>
-      {/if}
-    {/exp:stash:get_list}
-  {/if}
+{!-- Page Content: content-secondary --}
+{exp:stash:set name="content-secondary"}
+
+{/exp:stash:set}
+
+
+{!-- Page Content: content-featured --}
+{exp:stash:set name="content-featured"}
 
 {/exp:stash:set}

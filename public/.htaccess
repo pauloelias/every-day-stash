@@ -1,3 +1,9 @@
+ErrorDocument 404 /index.php/site/404
+
+<FilesMatch "(\.jpe?g|gif|png|bmp|css|js|flv)$">
+  ErrorDocument 404 "File Not Found"
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

@@ -4,8 +4,16 @@
   DEPENDENCIES: Stash, Grid, Relationships
   DESCRIPTION: Work detail template
 ============================================================================ --}
+{!-- Let's trigger 404s ==================================================== --}
+{if segment_3 != ""}
+    {redirect="404"}
+{/if}
+
+
+
 {!-- Set the layout ======================================================== --}
 {stash:embed:layouts:base}
+
 
 
 {!-- Set variables ========================================================= --}
@@ -19,9 +27,13 @@
   require_entry="yes"
   disable="categories|category_fields|member_data|pagination"
   status="open"
-  url_title="{last_segment}"
+  url_title="{segment_2}"
   dynamic="no"
 }
+  {!-- Trigger 404's --}
+    {if no_results}
+      {redirect="404"}
+    {/if}
 
   {exp:stash:set}
     {!-- Moar abstractions --}
