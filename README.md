@@ -82,15 +82,15 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 		1. Rename: ```./public/assets/ee/config/config.local.php.sample``` => ```./public/assets/ee/config/config.local.php```
 		2. Enter your database settings into ```./public/assets/ee/config/config.local.php```
 		3. Edit EECMS's config.php and databse.php files to reference the EE Master Config:
-			1. **config.php**" ```./public/assets/ee/system/expressionengine/config/config.php```
+			1. **config.php** ```./public/assets/ee/system/expressionengine/config/config.php```
 				1. Add to the bottom of the file, below "End of file config.php": ```require $_SERVER['DOCUMENT_ROOT'] . '/assets/ee/config/config.master.php';```
-			2. **database.php**" ```./public/assets/ee/system/expressionengine/config/database.php```
+			2. **database.php** ```./public/assets/ee/system/expressionengine/config/database.php```
 				1. Add to the bottom of the file, below "End of file config.php": ```require $_SERVER['DOCUMENT_ROOT'] . '/assets/ee/config/config.master.php';```
-	7. Review and modify settings in as needed:
+	7. Review and modify settings as needed in:
 		1.  ```./public/assets/ee/config/config.master.php```
 		2.  ```./public/assets/ee/config/config.master.extended.php```
 		3.  ```./public/assets/ee/config/config.master.third.php```
-	8. Review and adjust permission as needed [per the User Guide](http://ellislab.com/expressionengine/user-guide/installation/installation.html#set-file-permissions)
+	8. Review and adjust permissions as needed [per the User Guide (make note of the new locations!)](http://ellislab.com/expressionengine/user-guide/installation/installation.html#set-file-permissions)
 	9. Visit the site and log into the control panel:
 		1. http://everydaystash.dev/
 		2. http://everydaystash.dev/cp/
@@ -115,7 +115,7 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 * Templates: ````./public/assets/ee/views/templates```
 * Control panel: ```./public/cp/index.php``` (instead of leaving ```admin.php``` at the public web root)
 * Third-party add-ons: ```./public/assets/ee/add-ons```
-* Third-party add-ons: ```./public/themes/third_party```
+* Third-party themes: ```./public/themes/third_party```
 
 #### URLs
 
@@ -149,17 +149,17 @@ This project uses the following naming conventions:
 
 | Variable | Description | Location |
 | ----------- | ----------------- | ------------ |
-| {global:env} | Shorthand enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
-| {global:env_full} | Full enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
-| {global:param_disable_default} | Disables categories, pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
-| {global:param_disable_all}  | Disables categories, custom_fields, member_data, pagination |  ```./public/assets/ee/config/config.master.php``` |
-| {global:param_keep_cats} | Disables pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
-| {global:param_cache_param} | cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
-| {-global:param_cache_param} | -cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
-| {global:date_time} | %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
-| {global:date_short} | %F %d, %Y |  ```./public/assets/ee/config/config.master.php``` |
-| {global:date_full} | %F %d %Y, %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
-| {global:theme_url} | $base_url . 'themes/site_themes/default' |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_env} | Shorthand enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
+| {gv_env_full} | Full enironmental variable  | ```./public/assets/ee/config/config.master.php``` |
+| {gv_param_disable_default} | Disables categories, pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_param_disable_all}  | Disables categories, custom_fields, member_data, pagination |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_param_keep_cats} | Disables pagination, member_data |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_param_cache_param} | cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_param_cache_param} | -cache="yes" refresh="10" |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_date_time} | %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_date_short} | %F %d, %Y |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_date_full} | %F %d %Y, %g:%i %a |  ```./public/assets/ee/config/config.master.php``` |
+| {gv_theme_url} | $base_url . 'themes/site_themes/default' |  ```./public/assets/ee/config/config.master.php``` |
 
 #### <a name="channels"></a> Channels
 

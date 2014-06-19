@@ -274,28 +274,28 @@ if (isset($config))
     $assign_to_config['global_vars'] = array();
   }
 
-  // Start our array with environment variables. This gives us {global:env} and {global:env_full} tags for our templates.
+  // Start our array with environment variables. This gives us {gv_env} and {gv_env_full} tags for our templates.
   $master_global = array(
-    'global:env'      => ENV,
-    'global:env_full' => ENV_FULL,
+    'gv_env'      => ENV,
+    'gv_env_full' => ENV_FULL,
 
     // Tag parameters - Short hand tag params
-    'global:param_disable_default'  => 'disable="categories|pagination|member_data"',
-    'global:param_disable_all'    => 'disable="categories|custom_fields|member_data|pagination"',
-    'global:param_keep_cats'  => 'disable="pagination|member_data"',
-    'global:param_cache_param'    => 'cache="yes" refresh="10"',
-    '-global:param_cache_param'   => '-cache="yes" refresh="10"', // disable by adding a '-' to the front of the global
+    'gv_param_disable_default'  => 'disable="categoriespagination|member_data"',
+    'gv_param_disable_all'    => 'disable="categories|custom_fields|member_data|pagination"',
+    'gv_param_keep_cats'  => 'disable="pagination|member_data"',
+    'gv_param_cache_param'    => 'cache="yes" refresh="10"',
+    '-gv_param_cache_param'   => '-cache="yes" refresh="10"', // disable by adding a '-' to the front of the global
 
     // Date and time - Short hand date and time
-    'global:date_time'        => '%g:%i %a',
-    'global:date_short'       => '%F %d, %Y',
-    'global:date_full'        => '%F %d %Y, %g:%i %a',
+    'gv_date_time'        => '%g:%i %a',
+    'gv_date_short'       => '%F %d, %Y',
+    'gv_date_full'        => '%F %d %Y, %g:%i %a',
 
     /**
      * Theme - URL to theme assets
-     * Example: <script src="{global:theme_url}/js/libs/modernizr-1.6.min.js"></script>
+     * Example: <script src="{gv_theme_url}/js/libs/modernizr-1.6.min.js"></script>
      */
-    'global:theme_url'        => $base_url . 'themes/site_themes/default',
+    'gv_theme_url'        => $base_url . 'themes/site_themes/default',
   );
 
 
