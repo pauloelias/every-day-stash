@@ -43,28 +43,28 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 
 ### <a name="frontend"></a> Frontend (OPTIONAL)
 
-* Change the **project name** (currently every-day-stash) in ```.ruby-gemset```. Close and reopen the terminal window.
+* Clone and cd into the repo
+    * ```git clone https://github.com/pauloelias/every-day-stash.git && cd every-day-stash``` 
+* Change the **project name** (currently every-day-stash) in ```.ruby-gemset```. Change directory back out and cd back in (or close and reopen the terminal window).
 * Change the **project name** and **project details** in ```package.json```
 * Install Node
     * [Node.js Installer](http://nodejs.org/)
 * Install Gulp globally
     * ```npm install -g gulp```
     * You might need to ```sudo``` to install gulp globally E.G. ```sudo npm install -g gulp```
-* Clone and cd into the repo
-    * ```git clone https://github.com/QuickPixel/quickboot.git && cd quickboot```
 * Install [Bundler](http://bundler.io/)
 	*  ```gem install bundler```
 * Install ruby gems and  deepndencies
     * ```bundle install```
 * Install node modules and bower dependencies
-    * ```npm install````
+    * ```npm install```
 * Build your project ```gulp```
 * Watch project assets with Gulp and start local development server
 	* ```gulp watch```
 	* Then visit your local site in your web browser
 * Additional gulp tasks
   * Create project skeleton: ```gulp skeleton```
-  * Clean project distribution directory (./public): ```gulp clean```
+  * Clean project distribution directory (./public): ```gulp clean``` **Be careful, this blows away ./public**
   * Build for Production to minify and optimize assets: ```NODE_ENV=production gulp```
 
 ### <a name="backend"></a> ExpressionEngine (Sort of important ;)
@@ -72,7 +72,7 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 1.  Follow the [*Frontend Configuration*](#frontend) (OPTIONAL)
 2. Setup your local environtment:
 	1. Download [ExpressionEngine 2.8.1](http://ellislab.com/expressionengine) (this site should work with [EE Core](https://store.ellislab.com/#ee-core))
-	2. Clone this project: 	```git clonehttps://github.com/pauloelias/every-day-stash.git && cd every-day-stash```
+	2. Clone this project (if you haven't already): 	```git clonehttps://github.com/pauloelias/every-day-stash.git && cd every-day-stash```
 	3. Configure a virtual host for ```everydaystash.dev```
 	4. Setup a MySQL database and import data: ```./data/every-day-stash.sql```
 	5. Copy the EECMS source files to:

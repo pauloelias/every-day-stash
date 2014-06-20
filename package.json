@@ -1,7 +1,7 @@
 {
-  "name": "quickboot-scaffold",
+  "name": "every-day-stash",
   "version": "1.0.0",
-  "description": "QuickBoot scaffold for common front-end tasks",
+  "description": "Sample ExpressionEngine Website to demonstrate Stash concepts.",
   "main": "gulpfile.js",
   "scripts": {
     "postinstall": "bower install"
@@ -39,10 +39,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/QuickPixel/quickboot.git"
+    "url": "https://github.com/pauloelias/every-day-stash/"
   },
-  "author": "hello@wearequickpixel.com",
+  "author": "paulo@pauloelias.com",
   "license": "MIT",
-  "homepage": "http://quickboot.io/",
+  "homepage": "http://everydaystash.com/",
   "readmeFilename": "README.md"
 }
