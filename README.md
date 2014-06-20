@@ -1,4 +1,4 @@
-# Every Day Stash
+# Everyday Stash
 
 Sample ExpressionEngine portoflio website to demonstrate Stash concepts.
 
@@ -44,7 +44,7 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 ### <a name="frontend"></a> Frontend (OPTIONAL)
 
 * Clone and cd into the repo
-    * ```git clone https://github.com/pauloelias/every-day-stash.git && cd every-day-stash``` 
+    * ```git clone https://github.com/pauloelias/every-day-stash.git && cd every-day-stash```
 * Change the **project name** (currently every-day-stash) in ```.ruby-gemset```. Change directory back out and cd back in (or close and reopen the terminal window).
 * Change the **project name** and **project details** in ```package.json```
 * Install Node
@@ -209,13 +209,13 @@ While [QuickBoot](https://github.com/QuickPixel/quickboot) comes with a lightwei
 #### <a name="statuses"></a> Statuses
 
 | Status Group | Status Name | Status |
-| ------------------ | ------------------- | -------- | 
+| ------------------ | ------------------- | -------- |
 | Statuses | Open | open |
 |  | Closed | closed |
 
 #### <a name="categories"></a> Categories
 
-| Category Group | Order | Category Name | Category URL Title | 
+| Category Group | Order | Category Name | Category URL Title |
 | ----------------  | --------------- | ----------------------- | -------------------------- |
 | Blog Categories | Alpha | Article | article |
 | | | Case Study | case-study |

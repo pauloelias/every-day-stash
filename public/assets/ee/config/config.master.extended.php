@@ -9,8 +9,8 @@
    * ===========================================================================
    *
    * EDIT:
-   *   $env_config['site_name']                = 'Every Day Stash';
-   *   $env_config['site_label']               = 'Every Day Stash';
+   *   $env_config['site_name']                = 'Everyday Stash';
+   *   $env_config['site_label']               = 'Everyday Stash';
    *   $env_config['site_description']         = 'CLIDESC';
    *   $env_config['site_short_name']          = 'eds';
    *   $env_config['encryption_key']
@@ -34,8 +34,8 @@
    * Other system settings
    * ===========================================================================
    */
-  $env_config['site_name']                = 'Every Day Stash';
-  $env_config['site_label']               = 'Every Day Stash';
+  $env_config['site_name']                = 'Everyday Stash';
+  $env_config['site_label']               = 'Everyday Stash';
   $env_config['site_description']         = 'Sample ExpressionEngine Website to demonstrate Stash concepts.';
   $env_config['site_short_name']          = 'eds';
   $env_config['site_pages']               = '';

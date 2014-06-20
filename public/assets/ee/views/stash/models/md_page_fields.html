@@ -4,47 +4,47 @@
   DEPENDENCIES: Stash
   DESCRIPTION: Global page entry variables
 ============================================================================ --}
-  {exp:stash:set}
+{exp:stash:set}
 
-    {!-- Moar abstractions --}
-    {stash:embed:models:md_global_fields
-      parse="no"
-      process="start"
-    }
-
-    {!-- Grab the shared custom field group's fields --}
-    {stash:embed:models:md_shared_fields
-      parse="no"
-      process="start"
-    }
-
-  {/exp:stash:set}
-
-  {!-- Set lists from looping field types --}
-  {exp:stash:set_list
-    name="featured_work"
-    parse_tags="yes"
-    parse_depth="2"
+  {!-- Moar abstractions --}
+  {stash:embed:models:md_global_fields
+    parse="no"
+    process="start"
   }
 
-    {!-- This is a Relationship field --}
-    {cf_shared_featured_work}
-      {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
-      {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
-      {stash:title}{cf_shared_featured_work:title}{/stash:title}
-      {stash:content}{cf_shared_featured_work:cf_port_description}{/stash:content}
+  {!-- Grab the shared custom field group's fields --}
+  {stash:embed:models:md_shared_fields
+    parse="no"
+    process="start"
+  }
 
-      {!-- Nested Grid field --}
-      {exp:stash:set_list:nested
-        name="featured_gallery"
-        context="{cf_shared_featured_work:entry_id}"
-        parse_tags="yes"
-      }
-        {cf_shared_featured_work:cf_port_gallery}
-          {stash:caption}{cf_port_gallery:caption}{/stash:caption}
-          {stash:image}{cf_port_gallery:image}{/stash:image}
-        {/cf_shared_featured_work:cf_port_gallery}
-      {/exp:stash:set_list:nested}
-    {/cf_shared_featured_work}
+{/exp:stash:set}
 
-  {/exp:stash:set_list}
+{!-- Set lists from looping field types --}
+{exp:stash:set_list
+  name="featured_work"
+  parse_tags="yes"
+  parse_depth="2"
+}
+
+  {!-- This is a Relationship field --}
+  {cf_shared_featured_work}
+    {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
+    {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
+    {stash:title}{cf_shared_featured_work:title}{/stash:title}
+    {stash:content}{cf_shared_featured_work:cf_port_description}{/stash:content}
+
+    {!-- Nested Grid field --}
+    {exp:stash:set_list:nested
+      name="featured_gallery"
+      context="{cf_shared_featured_work:entry_id}"
+      parse_tags="yes"
+    }
+      {cf_shared_featured_work:cf_port_gallery}
+        {stash:caption}{cf_port_gallery:caption}{/stash:caption}
+        {stash:image}{cf_port_gallery:image}{/stash:image}
+      {/cf_shared_featured_work:cf_port_gallery}
+    {/exp:stash:set_list:nested}
+  {/cf_shared_featured_work}
+
+{/exp:stash:set_list}
