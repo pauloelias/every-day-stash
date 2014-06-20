@@ -16,8 +16,11 @@
 
 
 
-{!-- Set variables ========================================================= --}
 
+{!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{exp:streeng title="yes"}{segment_1}{/exp:streeng}{/stash:seo_title}
+{/exp:stash:set}
 
 
 {!-- Models ================================================================ --}
@@ -33,11 +36,11 @@
 
   {exp:channel:entries
     channel="ch_portfolio"
-    disable="categories|category_fields|member_data|pagination"
+    disable="{gv_param_disable_default}"
     status="open"
     dynamic="no"
   }
-    {stash:embed:snippets:sn_global_fields
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
@@ -105,7 +108,7 @@
                 {/if}
 
                 {if nested:port_image}
-                  <img src="{nested:port_image}" alt="{nested:port_caption}">
+                  <img src="{nested:port_image}" alt="{nested:port_caption}" width="320">
                 {/if}
               {/exp:stash:get_list:nested}
             {/if}

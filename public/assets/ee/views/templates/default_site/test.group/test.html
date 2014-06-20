@@ -2,7 +2,7 @@
   channel="ch_pages"
   limit="1"
   require_entry="yes"
-  disable="categories|category_fields|member_data|pagination"
+  disable="{gv_param_disable_default}"
   status="open"
   url_title="homepage"
   dynamic="no"
@@ -16,7 +16,7 @@
     {stash:image}{cf_shared_image}{/stash:image}
   {/exp:stash:set}
 
-  {!-- Set lists from looping fieldtypes --}
+  {!-- Set lists from looping field types --}
   {exp:stash:set_list
     name="featured_work"
     parse_tags="yes"

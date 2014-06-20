@@ -7,7 +7,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{site_name}</title>
+    <title>
+      {if {exp:stash:not_empty name="title"}}
+        {stash:title} |
+      {/if}
+      {if {exp:stash:not_empty name="seo_title"}}
+        {stash:seo_title} |
+      {/if}
+      {site_name}
+    </title>
   </head>
   <body>
     <header id="top" class="page-header">
@@ -21,3 +29,4 @@
         }
       </nav>
     </header>
+

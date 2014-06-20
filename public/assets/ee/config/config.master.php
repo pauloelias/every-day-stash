@@ -280,7 +280,7 @@ if (isset($config))
     'gv_env_full' => ENV_FULL,
 
     // Tag parameters - Short hand tag params
-    'gv_param_disable_default'  => 'disable="categoriespagination|member_data"',
+    'gv_param_disable_default'  => 'disable="categories|member_data|pagination"',
     'gv_param_disable_all'    => 'disable="categories|custom_fields|member_data|pagination"',
     'gv_param_keep_cats'  => 'disable="pagination|member_data"',
     'gv_param_cache_param'    => 'cache="yes" refresh="10"',

@@ -17,19 +17,39 @@
 
 
 {!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{/stash:seo_title}
+{/exp:stash:set}
 
 
 
 {!-- Models ================================================================ --}
-{!--
-  Shared page fields model found at:
-  ./public/assets/ee/views/stash/models/md_page_fields.html
---}
-{stash:embed:models:md_page_fields
-  stash:url_title="homepage"
-  parse="no"
-  process="start"
+{exp:channel:entries
+  channel="ch_pages"
+  limit="1"
+  require_entry="yes"
+  url_title="homepage"
+  disable="{gv_param_disable_default}"
+  status="open"
+  dynamic="no"
 }
+
+  {!-- Trigger 404's --}
+  {if no_results}
+    {redirect="404"}
+  {/if}
+
+  {!--
+    Shared page fields model found at:
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+  --}
+  {stash:embed:models:md_page_fields
+    stash:url_title=""
+    parse="no"
+    process="start"
+  }
+
+{/exp:channel:entries}
 
 {!--
   We're only showing this on the homepage so we don't need to abstract it
@@ -42,15 +62,19 @@
 
   {exp:channel:entries
     channel="ch_pages"
-    disable="categories|category_fields|member_data|pagination"
+    disable="{gv_param_disable_default}"
     status="open"
     dynamic="no"
   }
-    {stash:embed:snippets:sn_global_fields
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
-    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
+
+    {stash:embed:models:md_shared_fields
+      parse="no"
+      process="start"
+    }
   {/exp:channel:entries}
 
 {/exp:stash:set_list}

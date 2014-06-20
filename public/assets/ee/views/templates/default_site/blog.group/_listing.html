@@ -17,6 +17,9 @@
 
 
 {!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{exp:streeng title="yes"}{segment_1}{/exp:streeng}{/stash:seo_title}
+{/exp:stash:set}
 
 
 
@@ -31,19 +34,21 @@
   {exp:channel:entries
     channel="ch_blog"
     status="open"
-    disable="category_fields|member_data|pagination"
+    disable="{gv_param_disable_default}"
     dynamic="no"
   }
-    {stash:embed:snippets:sn_global_fields
+    {!-- Moar abstractions --}
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
-    {stash:author}{author}{/stash:author}
-    {stash:entry_date}{entry_date format="%F %d, %Y"}{/stash:entry_date}
-    {stash:categories}{categories backspace="2"}{category_name}, {/categories}{/stash:categories}
-    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
-    {stash:featured_image}{cf_shared_image}{/stash:featured_image}
-    {stash:content}{cf_shared_body}{/stash:content}
+
+    {!-- Grab the shared custom field group's fields --}
+    {stash:embed:models:md_shared_fields
+      parse="no"
+      process="start"
+    }
+
   {/exp:channel:entries}
 
 {/exp:stash:set_list}
@@ -56,8 +61,13 @@
   {if {exp:stash:not_empty name="blog"}}
     {exp:stash:get_list
       name="blog"
+      parse_tags="yes"
+      parse_conditionals="yes"
+      limit="3"
+      paginate="bottom"
       prefix="list"
       compress="yes"
+      process="end"
     }
       {if list:no_results}
         <p class="notice">Sorry, we can't display any Blog Posts.</p>
@@ -83,13 +93,39 @@
               <p>{exp:streeng allowed="none" words="10"}{list:content}{/exp:streeng}</p>
             {/if}
 
-            {if list:featured_image}
-              <img src="{list:featured_image}" alt="{list:title}">
+            {if list:image}
+              <img src="{list:image}" alt="{list:title}">
             {/if}
           </li>
       {if list:count == list:total_results}
         </ul>
       {/if}
+
+      {list:paginate}
+        {pagination_links}
+        <ul>
+          {first_page}
+            <li><a href="{pagination_url}" class="page-first">First Page</a></li>
+          {/first_page}
+
+          {previous_page}
+            <li><a href="{pagination_url}" class="page-previous">Previous Page</a></li>
+          {/previous_page}
+
+          {page}
+            <li><a href="{pagination_url}" class="page-{pagination_page_number} {if current_page}active{/if}">{pagination_page_number}</a></li>
+          {/page}
+
+          {next_page}
+            <li><a href="{pagination_url}" class="page-next">Next Page</a></li>
+          {/next_page}
+
+          {last_page}
+              <li><a href="{pagination_url}" class="page-last">Last Page</a></li>
+          {/last_page}
+        </ul>
+        {/pagination_links}
+    {/list:paginate}
     {/exp:stash:get_list}
   {/if}
 

@@ -17,20 +17,39 @@
 
 
 {!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{/stash:seo_title}
+{/exp:stash:set}
 
 
 
 {!-- Models ================================================================ --}
-{!--
-  Shared page fields model found at:
-  ./public/assets/ee/views/stash/models/md_page_fields.html
---}
-{stash:embed:models:md_page_fields
-  stash:url_title="{last_segment}"
-  parse="no"
-  process="start"
+{exp:channel:entries
+  channel="ch_pages"
+  limit="1"
+  require_entry="yes"
+  url_title="{segment_1}"
+  disable="{gv_param_disable_default}"
+  status="open"
+  dynamic="no"
 }
 
+  {!-- Trigger 404's --}
+  {if no_results}
+    {redirect="404"}
+  {/if}
+
+  {!--
+    Shared page fields model found at:
+    ./public/assets/ee/views/stash/models/md_page_fields.html
+  --}
+  {stash:embed:models:md_page_fields
+    stash:url_title="{segment_1}"
+    parse="no"
+    process="start"
+  }
+
+{/exp:channel:entries}
 
 {!-- Views ================================================================= --}
 {!-- Page Content: content-primary --}
@@ -58,7 +77,7 @@
 {exp:stash:set name="content-featured"}
 
   {!--
-    Featured work variables from:
+    Featured work variables if selected from:
     ./public/assets/ee/views/stash/models/md_page_fields.html
    --}
   {if {exp:stash:not_empty name="featured_work"}}

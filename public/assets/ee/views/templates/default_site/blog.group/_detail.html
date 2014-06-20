@@ -17,6 +17,10 @@
 
 
 {!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{exp:streeng title="yes"}{segment_1}{/exp:streeng}{/stash:seo_title}
+  {stash:title}{exp:streeng find="-" replace=" " title="yes"}{segment_2}{/exp:streeng}{/stash:title}
+{/exp:stash:set}
 
 
 
@@ -34,7 +38,7 @@
     require_entry="yes"
     url_title="{segment_2}"
     status="open"
-    disable="category_fields|member_data|pagination"
+    disable="{gv_param_disable_default}"
     dynamic="no"
   }
     {!-- Trigger 404's --}
@@ -42,16 +46,17 @@
       {redirect="404"}
     {/if}
 
-    {stash:embed:snippets:sn_global_fields
+    {!-- Moar abstractions --}
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
-    {stash:author}{author}{/stash:author}
-    {stash:entry_date}{entry_date format="%F %d, %Y"}{/stash:entry_date}
-    {stash:categories}{categories backspace="2"}{category_name}, {/categories}{/stash:categories}
-    {stash:teaser}{cf_shared_teaser}{/stash:teaser}
-    {stash:featured_image}{cf_shared_image}{/stash:featured_image}
-    {stash:content}{cf_shared_body}{/stash:content}
+
+    {!-- Grab the shared custom field group's fields --}
+    {stash:embed:models:md_shared_fields
+      parse="no"
+      process="start"
+    }
 
     {!-- Nested Relationship field --}
     {exp:stash:set_list:nested
@@ -61,11 +66,11 @@
     }
 
       {cf_shared_featured_work}
-
+        {stash:work_channel_name}{cf_shared_featured_work:channel_name}{/stash:work_channel_name}
         {stash:work_entry_id}{cf_shared_featured_work:entry_id}{/stash:work_entry_id}
-        {stash:title}{cf_shared_featured_work:title}{/stash:title}
-        {stash:url_title}{cf_shared_featured_work:url_title}{/stash:url_title}
-        {stash:description}{cf_shared_featured_work:cf_port_description}{/stash:description}
+        {stash:work_title}{cf_shared_featured_work:title}{/stash:work_title}
+        {stash:work_url_title}{cf_shared_featured_work:url_title}{/stash:work_url_title}
+        {stash:work_description}{cf_shared_featured_work:cf_port_description}{/stash:work_description}
 
         {!-- Nested Grid field --}
         {exp:stash:set_list:nested:doh
@@ -85,10 +90,10 @@
 {/exp:stash:set_list}
 
 
+
 {!-- Views ================================================================= --}
 {!-- Page Content: content-primary --}
 {exp:stash:set name="content-primary"}
-
   {if {exp:stash:not_empty name="blog"}}
     {exp:stash:get_list
       name="blog"
@@ -104,7 +109,7 @@
       {/if}
           <li>
             {if list:title}
-              <h2><a href="{path='blog/{list:url_title}'}">{list:title}</a> – {list:entry_id}</h2>
+              <h2><a href="{path='blog/{list:url_title}'}">{list:title}</a></h2>
             {/if}
 
             <div clas="blog-meta">
@@ -138,12 +143,12 @@
                   <p class="notice">Sorry, we can't display a Featured Project.</p>
                 {/if}
 
-                {if nested:title}
-                  <h3>{nested:title} - {nested:work_entry_id}</h3>
+                {if nested:work_title}
+                  <h3>{nested:work_title}</h3>
                 {/if}
 
-                {if nested:description}
-                  <h4>{exp:streeng allowed="none" words="10"}{nested:description}{/exp:streeng}</h4>
+                {if nested:work_description}
+                  <h4>{exp:streeng allowed="none" words="10"}{nested:work_description}{/exp:streeng}</h4>
                 {/if}
 
                 {exp:stash:get_list:nested:doh

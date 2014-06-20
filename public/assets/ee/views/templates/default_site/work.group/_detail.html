@@ -17,6 +17,9 @@
 
 
 {!-- Set variables ========================================================= --}
+{exp:stash:set}
+  {stash:seo_title}{exp:streeng title="yes"}{segment_1}{/exp:streeng}{/stash:seo_title}
+{/exp:stash:set}
 
 
 
@@ -25,7 +28,7 @@
   channel="ch_portfolio"
   limit="1"
   require_entry="yes"
-  disable="categories|category_fields|member_data|pagination"
+  disable="{gv_param_disable_default}"
   status="open"
   url_title="{segment_2}"
   dynamic="no"
@@ -37,14 +40,14 @@
 
   {exp:stash:set}
     {!-- Moar abstractions --}
-    {stash:embed:snippets:sn_global_fields
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
     {stash:content}{cf_port_description}{/stash:content}
   {/exp:stash:set}
 
-  {!-- Set lists from looping fieldtypes --}
+  {!-- Set lists from looping field types --}
   {!-- Grid field --}
   {exp:stash:set_list
     name="portfolio_gallery"

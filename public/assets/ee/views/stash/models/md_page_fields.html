@@ -4,42 +4,31 @@
   DEPENDENCIES: Stash
   DESCRIPTION: Global page entry variables
 ============================================================================ --}
-{exp:channel:entries
-  channel="ch_pages"
-  limit="1"
-  require_entry="yes"
-  url_title="{stash:url_title}"
-  disable="categories|category_fields|member_data|pagination"
-  status="open"
-  dynamic="no"
-}
-
-  {!-- Trigger 404's --}
-  {if no_results}
-    {redirect="404"}
-  {/if}
-
   {exp:stash:set}
+
     {!-- Moar abstractions --}
-    {stash:embed:snippets:sn_global_fields
+    {stash:embed:models:md_global_fields
       parse="no"
       process="start"
     }
-    {stash:content}{cf_shared_body}{/stash:content}
-    {stash:image}{cf_shared_image}{/stash:image}
+
+    {!-- Grab the shared custom field group's fields --}
+    {stash:embed:models:md_shared_fields
+      parse="no"
+      process="start"
+    }
+
   {/exp:stash:set}
 
-  {!-- Set lists from looping fieldtypes --}
+  {!-- Set lists from looping field types --}
   {exp:stash:set_list
     name="featured_work"
     parse_tags="yes"
     parse_depth="2"
   }
+
     {!-- This is a Relationship field --}
     {cf_shared_featured_work}
-      {!--
-        We can't use "sn_global_fields" here due to how the native relationship fieldtype prefixes variables
-      --}
       {stash:channel_name}{cf_shared_featured_work:channel_name}{/stash:channel_name}
       {stash:entry_id}{cf_shared_featured_work:entry_id}{/stash:entry_id}
       {stash:title}{cf_shared_featured_work:title}{/stash:title}
@@ -57,6 +46,5 @@
         {/cf_shared_featured_work:cf_port_gallery}
       {/exp:stash:set_list:nested}
     {/cf_shared_featured_work}
-  {/exp:stash:set_list}
 
-{/exp:channel:entries}
+  {/exp:stash:set_list}
