@@ -94,7 +94,9 @@
 {!-- Views ================================================================= --}
 {!-- Page Content: content-primary --}
 {exp:stash:set name="content-primary"}
+
   {if {exp:stash:not_empty name="blog"}}
+
     {exp:stash:get_list
       name="blog"
       prefix="list"
@@ -133,6 +135,9 @@
               name="featured_project"
               context="{list:entry_id}"}
             }
+
+              <h2 class="note">Featured Project <small>(This will showoff short_codes in the rev.)</small></h2>
+
               {exp:stash:get_list:nested
                 name="featured_project"
                 context="{list:entry_id}"
@@ -163,18 +168,33 @@
                     <p class="notice">Sorry, we can't display a Featured Project Image.</p>
                   {/if}
 
-                  {nested:gallery_image}
-                  {nested:gallery_caption}
-                  <hr>
+                  {if nested:count == 1}
+                    <ul>
+                  {/if}
+                      <li>
+                        {if nested:gallery_image}
+                          <img src="{nested:gallery_image}" alt="{nested:gallery_caption}" width="256">
+                        {/if}
+
+                        {if nested:gallery_caption}
+                          <p><small>CAPTION: {nested:gallery_caption}</small></p>
+                        {/if}
+                      </li>
+                  {if nested:count == nested:total_results}
+                    </ul>
+                  {/if}
                 {/exp:stash:get_list:nested:doh}
+
               {/exp:stash:get_list:nested}
             {/if}
           </li>
+
       {if list:count == list:total_results}
         </ul>
       {/if}
     {/exp:stash:get_list}
 
+  {/if} {!-- /END {exp:stash:not_empty name="blog"} --}
 {/exp:stash:set}
 
 

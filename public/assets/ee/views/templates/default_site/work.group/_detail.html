@@ -97,15 +97,18 @@
       {/if}
 
       {if list:count == 1}
+        <h2 class="note">This will be a gallery or slideshow</h2>
         <ul>
       {/if}
           <li>
-            {if list:caption}
-              <p>{list:caption}</p>
+            {if list:image}
+              <img src="{list:image}" alt="{list:caption}" width="320">
             {/if}
 
-            {if list:image}
-              <img src="{list:image}" alt="{list:caption}">
+            {if list:caption}
+              <p><small>CAPTION: {list:caption}</small></p>
+            {if:else}
+              <p>{!-- NO CAPTION HERE --}</p>
             {/if}
           </li>
       {if list:count == list:total_results}
@@ -125,6 +128,7 @@
       {/if}
 
       {if list:count == 1}
+        <h2 class="note">Portfolio Categories <small>(actually related entries)</small></h2>
         <ul>
       {/if}
           <li>

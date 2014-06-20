@@ -117,6 +117,7 @@
       {/if}
 
       {if list:count == 1}
+        <h2 class="note">Page "teasers" that link into the site.</h2>
         <ul>
       {/if}
           <li>
@@ -143,6 +144,7 @@
     Featured work variables from:
     ./public/assets/ee/views/stash/models/md_page_fields.html
    --}
+  <h2 class="note">Band of Featured Work</h2>
   {if {exp:stash:not_empty name="featured_work"}}
     {stash:embed:snippets:sn_featured_work_band
       parse="no"

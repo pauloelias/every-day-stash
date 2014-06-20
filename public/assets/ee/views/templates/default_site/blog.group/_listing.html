@@ -74,6 +74,8 @@
       {/if}
 
       {if list:count == 1}
+        <h2 class="note">Blog listing showing off Stash Paginiation</h2>
+
         <ul>
       {/if}
           <li>
@@ -94,7 +96,7 @@
             {/if}
 
             {if list:image}
-              <img src="{list:image}" alt="{list:title}">
+              <img src="{list:image}" alt="{list:title}" width="640">
             {/if}
           </li>
       {if list:count == list:total_results}

@@ -23,6 +23,7 @@
 {/exp:stash:set}
 
 
+
 {!-- Models ================================================================ --}
 {!--
   We're only showing the portfolio listing on the Portfolio/Work listing/landing page so we don't need to abstract it
@@ -99,22 +100,22 @@
                   <p class="notice">Sorry, we can't display an Image Gallery.</p>
                 {/if}
 
-                {if list:content}
-                  <p>{exp:streeng allowed="none" words="10"}{list:content}{/exp:streeng}</p>
+                {if list:title}
+                  <h2><a href="{path='work/{list:url_title}'}">{list:title}</a></h2>
                 {/if}
 
-                {if nested:port_caption}
-                  <p>{nested:port_caption}</p>
+                {if list:content}
+                  <p>{exp:streeng allowed="none" words="10"}{list:content}{/exp:streeng}</p>
                 {/if}
 
                 {if nested:port_image}
                   <img src="{nested:port_image}" alt="{nested:port_caption}" width="320">
                 {/if}
-              {/exp:stash:get_list:nested}
-            {/if}
 
-            {if list:title}
-              <h2><a href="{path='work/{list:url_title}'}">{list:title}</a></h2>
+                {if nested:port_caption}
+                  <p><small>CAPTION: {nested:port_caption}</small></p>
+                {/if}
+              {/exp:stash:get_list:nested}
             {/if}
           </li>
       {if list:count == list:total_results}
