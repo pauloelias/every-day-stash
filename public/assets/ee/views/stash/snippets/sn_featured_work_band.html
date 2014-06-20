@@ -23,7 +23,7 @@
         {/if}
 
         {if list:content}
-          {list:content}
+          {exp:streeng allowed="p" words="10"}{list:content}{/exp:streeng}
         {/if}
 
         {exp:stash:get_list:nested

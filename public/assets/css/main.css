@@ -562,3 +562,8 @@ img.float-right {
   color: inherit;
   background-color: #ffff99;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/pelias\/Dropbox\/Code\/Repositories\/GIT\/presentations\/eecms-every-day-stash-02\/compile\/sass\/main\.scss}line{font-family:\0000369}}
+img {
+  border: 1px solid #a7a9ac;
+}
